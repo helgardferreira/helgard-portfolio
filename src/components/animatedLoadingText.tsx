@@ -2,7 +2,7 @@ import React, { FunctionComponent } from "react"
 import { motion } from "framer-motion"
 import styled from "styled-components"
 
-const AnimatedText = styled(motion.h2)`
+const AnimatedText = styled(motion.h3)`
   font-size: 50px;
   height: 50px;
   font-weight: bold;

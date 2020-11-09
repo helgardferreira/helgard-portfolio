@@ -40,8 +40,8 @@ const FingerBlobs = () => (
 const CanvasContainer = styled.div`
   width: 100vw;
   height: 100vh;
-  position: absolute;
-  z-index: -1;
+  position: fixed;
+  z-index: 1;
   top: 0;
 `
 
