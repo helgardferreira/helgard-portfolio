@@ -94,7 +94,12 @@ const SEO: FunctionComponent<IProps> = ({
           content: metaDescription,
         },
       ] as MetaProps[]).concat(meta)}
-    />
+    >
+      <link
+        href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&display=swap"
+        rel="stylesheet"
+      ></link>
+    </Helmet>
   )
 }
 
