@@ -16,6 +16,7 @@ import { Provider, ReactReduxContext } from "react-redux"
 import { useTransform, useViewportScroll } from "framer-motion"
 import useWindowSize from "../../lib/hooks/useWindowSize"
 import { Group } from "three"
+import { interpolate } from "@popmotion/popcorn"
 
 // Useful for exploring scene in development mode
 // import CameraControls from "./cameraControls"
@@ -109,11 +110,6 @@ const HandCanvas: FunctionComponent<{
     }
   `)
 
-  // Hack for Gatsby static site generator since window is not available at compilation time
-  // See: https://www.gatsbyjs.com/docs/debugging-html-builds/
-  const pixelRatio = useRef(1)
-  useEffect(() => void (pixelRatio.current = window.devicePixelRatio), [])
-
   const { height } = useWindowSize()
   const { scrollY } = useViewportScroll()
   const shrinkSize = useTransform(
@@ -134,6 +130,19 @@ const HandCanvas: FunctionComponent<{
     sceneGroup.current?.position.set(10, yPos.get(), 14)
     sceneGroup.current?.rotation.set(0, -1, rotVal.get())
   })
+
+  // Hack for Gatsby static site generator since window is not available at compilation time
+  // See: https://www.gatsbyjs.com/docs/debugging-html-builds/
+  const pixelRatio = useRef(1)
+  useEffect(() => {
+    pixelRatio.current = window.devicePixelRatio
+
+    const mapper = interpolate([0, window.innerHeight], [1, 0.2999999999999999])
+
+    setTimeout(() => {
+      shrinkSize.set(mapper(window.scrollY) as number)
+    }, 500)
+  }, [])
 
   return (
     <CanvasContainer>
