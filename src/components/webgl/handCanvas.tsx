@@ -1,5 +1,11 @@
 import { graphql, useStaticQuery } from "gatsby"
-import React, { Suspense, useEffect, useRef } from "react"
+import React, {
+  FunctionComponent,
+  RefObject,
+  Suspense,
+  useEffect,
+  useRef,
+} from "react"
 import { Canvas } from "react-three-fiber"
 import styled from "styled-components"
 
@@ -7,6 +13,9 @@ import Blob from "./blob"
 import HandAnimatedModel from "./handAnimated"
 import SceneLoader from "../sceneLoader"
 import { Provider, ReactReduxContext } from "react-redux"
+import { useTransform, useViewportScroll } from "framer-motion"
+import useWindowSize from "../../lib/hooks/useWindowSize"
+import { Group } from "three"
 
 // Useful for exploring scene in development mode
 // import CameraControls from "./cameraControls"
@@ -20,32 +29,74 @@ const SceneLights = () => (
   </group>
 )
 
-const FingerBlobs = () => (
+const FingerBlobs: FunctionComponent<{ navRefs: RefObject<HTMLElement>[] }> = ({
+  navRefs,
+}) => (
   <group>
     {/* Thumb */}
-    <Blob wireframe segments={20} position={[-18, -10, -30]} sizeFactor={1} />
+    <Blob
+      wireframe
+      segments={20}
+      position={[-18, -10, -30]}
+      sizeFactor={1}
+      navRef={navRefs[0]}
+    />
     {/* Index */}
-    <Blob wireframe segments={20} position={[-9, -4, -40]} sizeFactor={1} />
+    <Blob
+      wireframe
+      segments={20}
+      position={[-9, -4, -40]}
+      sizeFactor={1}
+      navRef={navRefs[1]}
+    />
     {/* Middle */}
-    <Blob wireframe segments={20} position={[0, -2.5, -36]} sizeFactor={1} />
+    <Blob
+      wireframe
+      segments={20}
+      position={[0, -2.5, -36]}
+      sizeFactor={1}
+      navRef={navRefs[2]}
+    />
     {/* Ring */}
-    <Blob wireframe segments={20} position={[7, -4, -35]} sizeFactor={1} />
+    <Blob
+      wireframe
+      segments={20}
+      position={[7, -4, -35]}
+      sizeFactor={1}
+      navRef={navRefs[3]}
+    />
     {/* Pinkie */}
-    <Blob wireframe segments={20} position={[12.5, -7, -33]} sizeFactor={1} />
+    <Blob
+      wireframe
+      segments={20}
+      position={[12.5, -7, -33]}
+      sizeFactor={1}
+      navRef={navRefs[4]}
+    />
     {/* Palm */}
-    <Blob wireframe segments={40} position={[0, -15, -25]} sizeFactor={6} />
+    <Blob
+      wireframe
+      segments={40}
+      position={[0, -15, -25]}
+      sizeFactor={6}
+      navRef={navRefs[5]}
+    />
   </group>
 )
 
+// const CanvasContainer = styled(motion.div)`
 const CanvasContainer = styled.div`
-  width: 100vw;
-  height: 100vh;
   position: fixed;
   z-index: 1;
-  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 100vw;
+  height: 100vh;
 `
 
-function HandCanvas() {
+const HandCanvas: FunctionComponent<{
+  navRefs: RefObject<HTMLElement>[]
+}> = ({ navRefs }) => {
   // const mouse = useRef({ x: 0, y: 0 })
   const { handAnimated, textureImage } = useStaticQuery(graphql`
     query {
@@ -63,6 +114,25 @@ function HandCanvas() {
   const pixelRatio = useRef(1)
   useEffect(() => void (pixelRatio.current = window.devicePixelRatio), [])
 
+  const { height } = useWindowSize()
+  const { scrollY } = useViewportScroll()
+  const shrinkSize = useTransform(
+    scrollY,
+    [0, height ? height : 900],
+    [1, 0.0999999999999999]
+  )
+
+  const xPos = useTransform(shrinkSize, [1, 0.1], [0, 4])
+  const rotVal = useTransform(xPos, val => val / 10)
+
+  const sceneGroup = useRef<Group>()
+
+  shrinkSize.onChange(val => {
+    sceneGroup.current?.scale.set(val, val, val)
+    sceneGroup.current?.position.set(xPos.get(), 7, 14)
+    sceneGroup.current?.rotation.set(0, -rotVal.get(), rotVal.get())
+  })
+
   return (
     <CanvasContainer>
       <ReactReduxContext.Consumer>
@@ -74,7 +144,11 @@ function HandCanvas() {
             <Provider store={store}>
               <SceneLights />
               <Suspense fallback={null}>
-                <group position={[0, 7, 14]}>
+                <group
+                  ref={sceneGroup}
+                  position={[0, 7, 14]}
+                  rotation={[0, 0, 0]}
+                >
                   <HandAnimatedModel
                     gltfURL={handAnimated.publicURL}
                     textureURL={textureImage.publicURL}
@@ -82,7 +156,8 @@ function HandCanvas() {
                     rotation={[0, 0, 0]}
                     scale={[40, 40, 40]}
                   />
-                  <FingerBlobs />
+
+                  <FingerBlobs navRefs={navRefs} />
                 </group>
               </Suspense>
               {/* <CameraControls /> */}

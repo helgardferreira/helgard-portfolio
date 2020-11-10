@@ -5,6 +5,7 @@
   "version": "0.1.0",
   "author": "Helgard Richard Ferreira <hrfer3@gmail.com>",
   "dependencies": {
+    "@popmotion/popcorn": "^0.4.4",
     "@react-three/drei": "^2.1.1-beta.5",
     "@react-three/gltfjsx": "^3.0.7",
     "framer-motion": "^2.9.3",

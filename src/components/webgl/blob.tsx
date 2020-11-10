@@ -1,4 +1,4 @@
-import React, { useRef, FunctionComponent, useEffect } from "react"
+import React, { useRef, FunctionComponent, useEffect, RefObject } from "react"
 import { useFrame } from "react-three-fiber"
 import {
   Mesh,
@@ -20,6 +20,7 @@ interface IBlobProps {
   segments?: number
   wireframe?: boolean
   sizeFactor?: number
+  navRef?: RefObject<HTMLElement>
 }
 
 const Blob: FunctionComponent<IBlobProps & JSX.IntrinsicElements["mesh"]> = ({
@@ -28,6 +29,7 @@ const Blob: FunctionComponent<IBlobProps & JSX.IntrinsicElements["mesh"]> = ({
   segments = 50,
   wireframe = false,
   sizeFactor: size = 1,
+  navRef,
   ...props
 }) => {
   const store = useStore<{ motion: { handMotionValue: number } }>()
@@ -118,6 +120,17 @@ const Blob: FunctionComponent<IBlobProps & JSX.IntrinsicElements["mesh"]> = ({
             type: "UPDATE_MOTION",
             handMotionValue: 0,
           })
+
+          if (navRef && navRef.current) {
+            const elementYPos =
+              window.scrollY + navRef.current.getBoundingClientRect().top
+
+            window.scrollTo({
+              top: elementYPos,
+              left: 0,
+              behavior: "smooth",
+            })
+          }
         }
       }}
       onPointerOver={() => {
