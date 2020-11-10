@@ -119,18 +119,20 @@ const HandCanvas: FunctionComponent<{
   const shrinkSize = useTransform(
     scrollY,
     [0, height ? height : 900],
-    [1, 0.0999999999999999]
+    [1, 0.2999999999999999]
   )
 
-  const xPos = useTransform(shrinkSize, [1, 0.1], [0, 4])
-  const rotVal = useTransform(xPos, val => val / 10)
+  /* const xPos = useTransform(shrinkSize, [1, 0.1], [0, 4])
+  const rotVal = useTransform(xPos, val => val / 10) */
+  const yPos = useTransform(shrinkSize, [1, 0.3], [7, 5])
+  const rotVal = useTransform(shrinkSize, [1, 0.3], [0, 0.3])
 
   const sceneGroup = useRef<Group>()
 
   shrinkSize.onChange(val => {
     sceneGroup.current?.scale.set(val, val, val)
-    sceneGroup.current?.position.set(xPos.get(), 7, 14)
-    sceneGroup.current?.rotation.set(0, -rotVal.get(), rotVal.get())
+    sceneGroup.current?.position.set(10, yPos.get(), 14)
+    sceneGroup.current?.rotation.set(0, -1, rotVal.get())
   })
 
   return (
@@ -146,8 +148,8 @@ const HandCanvas: FunctionComponent<{
               <Suspense fallback={null}>
                 <group
                   ref={sceneGroup}
-                  position={[0, 7, 14]}
-                  rotation={[0, 0, 0]}
+                  position={[10, 7, 14]}
+                  rotation={[0, -1, 0]}
                 >
                   <HandAnimatedModel
                     gltfURL={handAnimated.publicURL}

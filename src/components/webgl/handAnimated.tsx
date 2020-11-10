@@ -105,7 +105,8 @@ const HandAnimatedModel: FunctionComponent<
     return () => animations.forEach(clip => mixer.uncacheClip(clip))
   }, [])
 
-  useFrame(({ clock }, delta) => {
+  useFrame(({ clock, camera }, delta) => {
+    camera.lookAt(10, 0, 0)
     mixer.update(delta)
     uniforms.current.time.value = clock.getElapsedTime()
 
