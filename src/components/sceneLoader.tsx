@@ -1,13 +1,18 @@
-import React, { FunctionComponent, useRef, useState } from "react"
+import React, { FunctionComponent, useEffect, useRef, useState } from "react"
 import { motion, useSpring, useTransform } from "framer-motion"
 import styled from "styled-components"
 import { useStore } from "react-redux"
-import { LoadErrorState, LoadState } from "../state/reducers/loader.reducer"
+import {
+  LoaderAction,
+  LoadErrorState,
+  LoadState,
+} from "../state/reducers/loader.reducer"
 import AnimatedLoadingText from "./animatedLoadingText"
+import { DefaultLoadingManager } from "three"
 
 const LoadingContainer = styled(motion.div)`
   position: fixed;
-  z-index: 1;
+  z-index: 2;
   top: 0;
   left: 0;
   width: 100vw;
@@ -67,6 +72,37 @@ const SceneLoader: FunctionComponent = () => {
       timerToken.current = 0
     }
   })
+
+  useEffect(() => {
+    DefaultLoadingManager.onStart = (item, loaded, total) =>
+      store.dispatch<LoaderAction>({
+        type: "UPDATE_LOADER",
+        active: true,
+        item,
+        loaded,
+        total,
+        progress: (loaded / total) * 100,
+      })
+
+    DefaultLoadingManager.onLoad = () =>
+      store.dispatch<LoaderAction>({ type: "FINISH_LOADER" })
+
+    DefaultLoadingManager.onError = item =>
+      store.dispatch<LoaderAction>({
+        type: "ERR_LOADER",
+        error: item,
+      })
+
+    DefaultLoadingManager.onProgress = (item, loaded, total) =>
+      store.dispatch<LoaderAction>({
+        type: "UPDATE_LOADER",
+        active: true,
+        item,
+        loaded,
+        total,
+        progress: (loaded / total) * 100,
+      })
+  }, [])
 
   return isVisible ? (
     <LoadingContainer>

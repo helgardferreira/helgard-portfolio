@@ -1,6 +1,5 @@
 import { createStore } from "redux"
 import rootReducer from "./reducers"
-import threeLoader from "./threeLoader"
 
 declare global {
   interface Window {
@@ -17,6 +16,5 @@ const reduxDevTools = (() => {
 })()
 
 const store = createStore(rootReducer, reduxDevTools)
-threeLoader(store)
 
 export default store

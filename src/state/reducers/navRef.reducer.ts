@@ -1,14 +1,12 @@
 import { Reducer, RefObject } from "react"
 
-type Nullable<T> = T | null
-
 export interface NavRefState {
-  thumb: Nullable<RefObject<HTMLElement>>
-  index: Nullable<RefObject<HTMLElement>>
-  middle: Nullable<RefObject<HTMLElement>>
-  ring: Nullable<RefObject<HTMLElement>>
-  pinkie: Nullable<RefObject<HTMLElement>>
-  palm: Nullable<RefObject<HTMLElement>>
+  thumb?: RefObject<HTMLElement>
+  index?: RefObject<HTMLElement>
+  middle?: RefObject<HTMLElement>
+  ring?: RefObject<HTMLElement>
+  pinkie?: RefObject<HTMLElement>
+  palm?: RefObject<HTMLElement>
 }
 
 export const UPDATE_NAV_REF = "UPDATE_NAV_REF"
@@ -21,19 +19,12 @@ export interface UpdateNavRefAction extends NavRefState {
 export type NavRefAction = UpdateNavRefAction
 
 const navRefReducer: Reducer<NavRefState, NavRefAction> = (
-  state = {
-    thumb: null,
-    index: null,
-    middle: null,
-    ring: null,
-    pinkie: null,
-    palm: null,
-  },
+  state = {},
   action
 ): NavRefState => {
   switch (action.type) {
     case UPDATE_NAV_REF:
-      return action
+      return { ...state, ...action }
     default:
       return state
   }
