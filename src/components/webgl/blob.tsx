@@ -4,7 +4,6 @@ import React, {
   useEffect,
   RefObject,
   useCallback,
-  useState,
 } from "react"
 import { useFrame } from "react-three-fiber"
 import {
@@ -133,11 +132,9 @@ const Blob: FunctionComponent<BlobProps & JSX.IntrinsicElements["mesh"]> = ({
     }
   }, [active, amp])
 
-  blobMotion.onChange(() => {
-    const newBlobSize = blobMotion.get()
+  blobMotion.onChange(val => {
     const newTextSize = motion.get()
-    if (mesh.current)
-      mesh.current.scale.set(newBlobSize, newBlobSize, newBlobSize)
+    if (mesh.current) mesh.current.scale.set(val, val, val)
     if (textMesh.current)
       textMesh.current.scale.set(newTextSize, newTextSize, newTextSize)
   })
@@ -200,7 +197,6 @@ const Blob: FunctionComponent<BlobProps & JSX.IntrinsicElements["mesh"]> = ({
           maxWidth={40}
           lineHeight={1}
           letterSpacing={0}
-          // textAlign="justify"
           font="https://fonts.gstatic.com/s/raleway/v14/1Ptrg8zYS_SKggPNwK4vaqI.woff"
           position={offsetVector}
           onClick={clickHandler}

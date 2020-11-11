@@ -4,8 +4,10 @@ import React, {
   useEffect,
   FunctionComponent,
   useLayoutEffect,
+  useCallback,
 } from "react"
 import { useFrame } from "react-three-fiber"
+import { Text } from "@react-three/drei"
 
 import { GLTF } from "three/examples/jsm/loaders/GLTFLoader"
 import {
@@ -15,9 +17,11 @@ import {
   Group,
   IUniform,
   LoopOnce,
+  Mesh,
   MeshStandardMaterial,
   ShaderMaterial,
   SkinnedMesh,
+  Vector3,
 } from "three"
 import useGLTF from "../../lib/hooks/useGLTF"
 import useTexture from "../../lib/hooks/useTexture"
@@ -55,7 +59,7 @@ interface FragmentUniforms {
 
 const HandAnimatedModel: FunctionComponent<
   HandProps & JSX.IntrinsicElements["group"]
-> = ({ gltfURL, textureURL, ...props }) => {
+> = ({ gltfURL, textureURL, position, ...props }) => {
   const store = useStore<{ motion: MotionState }>()
   const dispatch = useDispatch()
 
@@ -85,9 +89,58 @@ const HandAnimatedModel: FunctionComponent<
     // mass: 1,
     // damping: 10,
   })
+  const textMotion = useSpring(0, {
+    stiffness: 200,
+    damping: 20,
+  })
+
+  const textMesh = useRef<Mesh>(null)
+
+  const offsetVector = new Vector3(0.1, 81.7, -1)
+
+  // Add text offset
+  if (position instanceof Vector3) {
+    offsetVector.add(position)
+  } else if (position !== undefined) {
+    offsetVector.add(new Vector3(...position))
+  }
 
   const canAnimate = useRef(true)
   const timerToken = useRef(0)
+
+  const clickHandler = useCallback(() => {
+    if (timerToken.current === 0 && actions.current && motion.get() === 0) {
+      timerToken.current = setTimeout(() => {
+        dispatch<MotionAction>({
+          type: "UPDATE_MOTION",
+          handMotionValue: 1,
+        })
+        timerToken.current = 0
+
+        setTimeout(() => {
+          canAnimate.current = true
+        }, 100)
+      }, 2000 / 15)
+      actions.current.rigAction.paused = false
+      // Time set to just before final frame =>
+      //  2 seconds (normal animation duration) / 15 timescale (playback multiplier)
+      actions.current.rigAction.getMixer().setTime(0.13)
+      actions.current.rigAction.setEffectiveTimeScale(-15)
+      textMotion.set(0)
+    }
+  }, [timerToken, actions, motion])
+
+  const pointerMoveHandler = useCallback(() => {
+    if (document.body.style.cursor !== "pointer")
+      document.body.style.cursor = "pointer"
+  }, [])
+  const pointerOutHandler = useCallback(() => {
+    document.body.style.cursor = "auto"
+  }, [])
+
+  textMotion.onChange(val => {
+    if (textMesh.current) textMesh.current.scale.set(val, val, val)
+  })
 
   store.subscribe(() => {
     motion.set(store.getState().motion.handMotionValue)
@@ -120,40 +173,19 @@ const HandAnimatedModel: FunctionComponent<
       actions.current.rigAction.paused = false
       actions.current.rigAction.play()
       canAnimate.current = false
+
+      textMotion.set(1)
     }
   })
 
   return (
     <group
       ref={group}
+      position={position}
       {...props}
-      onPointerOut={() => {
-        document.body.style.cursor = "auto"
-      }}
-      onPointerMove={() => {
-        if (document.body.style.cursor !== "pointer")
-          document.body.style.cursor = "pointer"
-      }}
-      onClick={() => {
-        if (timerToken.current === 0 && actions.current && motion.get() === 0) {
-          timerToken.current = setTimeout(() => {
-            dispatch<MotionAction>({
-              type: "UPDATE_MOTION",
-              handMotionValue: 1,
-            })
-            timerToken.current = 0
-
-            setTimeout(() => {
-              canAnimate.current = true
-            }, 100)
-          }, 2000 / 15)
-          actions.current.rigAction.paused = false
-          // Time set to just before final frame =>
-          //  2 seconds (normal animation duration) / 15 timescale (playback multiplier)
-          actions.current.rigAction.getMixer().setTime(0.13)
-          actions.current.rigAction.setEffectiveTimeScale(-15)
-        }
-      }}
+      onPointerMove={pointerMoveHandler}
+      onPointerOut={pointerOutHandler}
+      onClick={clickHandler}
     >
       <group position={[0, 0, 0]} scale={[1, 1, 1]}>
         <group position={[0, 0, 0]} scale={[1, 1, 1]}>
@@ -168,6 +200,24 @@ const HandAnimatedModel: FunctionComponent<
           />
         </group>
       </group>
+
+      <Text
+        scale={[0, 0, 0]}
+        ref={textMesh}
+        color="#EC2D2D"
+        fontSize={0.1}
+        maxWidth={40}
+        lineHeight={1}
+        letterSpacing={0}
+        font="https://fonts.gstatic.com/s/raleway/v14/1Ptrg8zYS_SKggPNwK4vaqI.woff"
+        position={offsetVector}
+        rotation={[0, 0, -0.25]}
+        onClick={clickHandler}
+        onPointerMove={pointerMoveHandler}
+        onPointerOut={pointerOutHandler}
+      >
+        CLICK ME
+      </Text>
     </group>
   )
 }
