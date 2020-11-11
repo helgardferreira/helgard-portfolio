@@ -1,4 +1,11 @@
-import React, { useRef, FunctionComponent, useEffect, RefObject } from "react"
+import React, {
+  useRef,
+  FunctionComponent,
+  useEffect,
+  RefObject,
+  useCallback,
+  useState,
+} from "react"
 import { useFrame } from "react-three-fiber"
 import {
   Mesh,
@@ -7,14 +14,14 @@ import {
   Color,
   ShaderMaterial,
   SphereGeometry,
+  Vector3,
 } from "three"
 import { useSpring, useTransform } from "framer-motion"
 
 import blobVertex from "raw-loader!./shaders/blobVertex.glsl"
 import { useDispatch, useSelector, useStore } from "react-redux"
 import { MotionAction } from "../../state/reducers/motion.reducer"
-
-type Nullable<T> = T | null
+import { Text } from "@react-three/drei"
 
 interface BlobProps {
   isInvalid?: boolean
@@ -22,7 +29,8 @@ interface BlobProps {
   segments?: number
   wireframe?: boolean
   sizeFactor?: number
-  navRef?: Nullable<RefObject<HTMLElement>>
+  navRef?: RefObject<HTMLElement>
+  navName?: string
 }
 
 const Blob: FunctionComponent<BlobProps & JSX.IntrinsicElements["mesh"]> = ({
@@ -32,6 +40,8 @@ const Blob: FunctionComponent<BlobProps & JSX.IntrinsicElements["mesh"]> = ({
   wireframe = false,
   sizeFactor: size = 1,
   navRef,
+  navName,
+  position,
   ...props
 }) => {
   const store = useStore<{ motion: { handMotionValue: number } }>()
@@ -65,11 +75,6 @@ const Blob: FunctionComponent<BlobProps & JSX.IntrinsicElements["mesh"]> = ({
 
   const blobMotion = useTransform(motion, val => val * size)
 
-  blobMotion.onChange(() => {
-    const newSize = blobMotion.get()
-    if (mesh.current) mesh.current.scale.set(newSize, newSize, newSize)
-  })
-
   const diffuseColor = useRef(new Color("#ff00ff"))
   const customUniforms = useRef(
     UniformsUtils.merge([
@@ -82,6 +87,60 @@ const Blob: FunctionComponent<BlobProps & JSX.IntrinsicElements["mesh"]> = ({
 
   const mesh = useRef<Mesh<SphereGeometry>>(null)
   const customMaterial = useRef<ShaderMaterial>(null)
+  const textMesh = useRef<Mesh>(null)
+
+  const offsetVector = new Vector3(0, 3, 0)
+
+  // Add text offset
+  if (position instanceof Vector3) {
+    offsetVector.add(position)
+  } else if (position !== undefined) {
+    offsetVector.add(new Vector3(...position))
+  }
+
+  const clickHandler = useCallback(() => {
+    if (!active) {
+      amp.set(0.8)
+      dispatch<MotionAction>({
+        type: "UPDATE_MOTION",
+        handMotionValue: 0,
+      })
+
+      if (navRef && navRef.current) {
+        const elementYPos =
+          window.scrollY + navRef.current.getBoundingClientRect().top
+
+        window.scrollTo({
+          top: elementYPos,
+          left: 0,
+          behavior: "smooth",
+        })
+      }
+    }
+  }, [active, amp, dispatch, navRef])
+
+  const pointerOverHandler = useCallback(() => {
+    if (!active) {
+      amp.set(0.6)
+      document.body.style.cursor = "pointer"
+    }
+  }, [active, amp])
+
+  const pointerOutHandler = useCallback(() => {
+    if (!active) {
+      amp.set(0.0)
+      document.body.style.cursor = "auto"
+    }
+  }, [active, amp])
+
+  blobMotion.onChange(() => {
+    const newBlobSize = blobMotion.get()
+    const newTextSize = motion.get()
+    if (mesh.current)
+      mesh.current.scale.set(newBlobSize, newBlobSize, newBlobSize)
+    if (textMesh.current)
+      textMesh.current.scale.set(newTextSize, newTextSize, newTextSize)
+  })
 
   store.subscribe(() => {
     motion.set(store.getState().motion.handMotionValue)
@@ -112,54 +171,46 @@ const Blob: FunctionComponent<BlobProps & JSX.IntrinsicElements["mesh"]> = ({
   })
 
   return (
-    <mesh
-      ref={mesh}
-      scale={[blobMotion.get(), blobMotion.get(), blobMotion.get()]}
-      onClick={() => {
-        if (!active) {
-          amp.set(0.8)
-          dispatch<MotionAction>({
-            type: "UPDATE_MOTION",
-            handMotionValue: 0,
-          })
-
-          if (navRef && navRef.current) {
-            const elementYPos =
-              window.scrollY + navRef.current.getBoundingClientRect().top
-
-            window.scrollTo({
-              top: elementYPos,
-              left: 0,
-              behavior: "smooth",
-            })
-          }
-        }
-      }}
-      onPointerOver={() => {
-        if (!active) {
-          amp.set(0.6)
-          document.body.style.cursor = "pointer"
-        }
-      }}
-      onPointerOut={() => {
-        if (!active) {
-          amp.set(0.0)
-          document.body.style.cursor = "auto"
-        }
-      }}
-      {...props}
-    >
-      <sphereGeometry attach="geometry" args={[1, segments, segments]} />
-      <shaderMaterial
-        ref={customMaterial}
-        attach="material"
-        uniforms={customUniforms.current}
-        vertexShader={blobVertex}
-        fragmentShader={ShaderLib.phong.fragmentShader}
-        wireframe={wireframe}
-        lights
-      />
-    </mesh>
+    <group>
+      <mesh
+        ref={mesh}
+        scale={[blobMotion.get(), blobMotion.get(), blobMotion.get()]}
+        onClick={clickHandler}
+        onPointerOver={pointerOverHandler}
+        onPointerOut={pointerOutHandler}
+        position={position}
+        {...props}
+      >
+        <sphereGeometry attach="geometry" args={[1, segments, segments]} />
+        <shaderMaterial
+          ref={customMaterial}
+          attach="material"
+          uniforms={customUniforms.current}
+          vertexShader={blobVertex}
+          fragmentShader={ShaderLib.phong.fragmentShader}
+          wireframe={wireframe}
+          lights
+        />
+      </mesh>
+      {navName ? (
+        <Text
+          ref={textMesh}
+          color="#EC2D2D"
+          fontSize={1.4}
+          maxWidth={40}
+          lineHeight={1}
+          letterSpacing={0}
+          // textAlign="justify"
+          font="https://fonts.gstatic.com/s/raleway/v14/1Ptrg8zYS_SKggPNwK4vaqI.woff"
+          position={offsetVector}
+          onClick={clickHandler}
+          onPointerOver={pointerOverHandler}
+          onPointerOut={pointerOutHandler}
+        >
+          {navName}
+        </Text>
+      ) : null}
+    </group>
   )
 }
 

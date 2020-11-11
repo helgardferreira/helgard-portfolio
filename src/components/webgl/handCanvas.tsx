@@ -1,11 +1,5 @@
 import { graphql, useStaticQuery } from "gatsby"
-import React, {
-  FunctionComponent,
-  RefObject,
-  Suspense,
-  useEffect,
-  useRef,
-} from "react"
+import React, { FunctionComponent, Suspense, useEffect, useRef } from "react"
 import { Canvas } from "react-three-fiber"
 import styled from "styled-components"
 
@@ -45,6 +39,7 @@ const FingerBlobs: FunctionComponent = () => {
         position={[-18, -10, -30]}
         sizeFactor={1}
         navRef={navRefs.thumb}
+        navName="ABOUT"
       />
       {/* Index */}
       <Blob
@@ -53,6 +48,7 @@ const FingerBlobs: FunctionComponent = () => {
         position={[-9, -4, -40]}
         sizeFactor={1}
         navRef={navRefs.index}
+        navName="FULLTIME"
       />
       {/* Middle */}
       <Blob
@@ -61,6 +57,7 @@ const FingerBlobs: FunctionComponent = () => {
         position={[0, -2.5, -36]}
         sizeFactor={1}
         navRef={navRefs.middle}
+        navName="FREELANCE"
       />
       {/* Ring */}
       <Blob
@@ -144,39 +141,41 @@ const HandCanvas: FunctionComponent = () => {
   }, [])
 
   return (
-    <CanvasContainer>
-      <ReactReduxContext.Consumer>
-        {({ store }) => (
-          <Canvas
-            pixelRatio={pixelRatio.current}
-            camera={{ position: [0, 10, 15], rotation: [0, 0, 0] }}
-          >
-            <Provider store={store}>
-              <SceneLights />
-              <Suspense fallback={null}>
-                <group
-                  ref={sceneGroup}
-                  position={[10, 7, 14]}
-                  rotation={[0, -1, 0]}
-                >
-                  <HandAnimatedModel
-                    gltfURL={handAnimated.publicURL}
-                    textureURL={textureImage.publicURL}
-                    position={[0, -80, 0]}
-                    rotation={[0, 0, 0]}
-                    scale={[40, 40, 40]}
-                  />
-
-                  <FingerBlobs />
-                </group>
-              </Suspense>
-              {/* <CameraControls /> */}
-            </Provider>
-          </Canvas>
-        )}
-      </ReactReduxContext.Consumer>
+    <>
       <SceneLoader />
-    </CanvasContainer>
+      <CanvasContainer>
+        <ReactReduxContext.Consumer>
+          {({ store }) => (
+            <Canvas
+              pixelRatio={pixelRatio.current}
+              camera={{ position: [0, 10, 15], rotation: [0, 0, 0] }}
+            >
+              <Provider store={store}>
+                <SceneLights />
+                <Suspense fallback={null}>
+                  <group
+                    ref={sceneGroup}
+                    position={[10, 7, 14]}
+                    rotation={[0, -1, 0]}
+                  >
+                    <HandAnimatedModel
+                      gltfURL={handAnimated.publicURL}
+                      textureURL={textureImage.publicURL}
+                      position={[0, -80, 0]}
+                      rotation={[0, 0, 0]}
+                      scale={[40, 40, 40]}
+                    />
+
+                    <FingerBlobs />
+                  </group>
+                </Suspense>
+                {/* <CameraControls /> */}
+              </Provider>
+            </Canvas>
+          )}
+        </ReactReduxContext.Consumer>
+      </CanvasContainer>
+    </>
   )
 }
 
