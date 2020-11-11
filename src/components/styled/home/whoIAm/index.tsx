@@ -47,7 +47,7 @@ const Description = styled.div`
 
   strong {
     font-weight: bold;
-    color: #27aac9;
+    color: #29CC92;
   }
 `
 
