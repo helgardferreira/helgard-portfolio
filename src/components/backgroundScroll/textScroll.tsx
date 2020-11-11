@@ -1,13 +1,13 @@
 import React, { FunctionComponent, useLayoutEffect } from "react"
 import { motion, useMotionValue } from "framer-motion"
 
-interface IProps {
+interface TextScrollProps {
   direction?: "left" | "right"
   start?: number
   width: number
 }
 
-const TextScroll: FunctionComponent<IProps> = ({
+const TextScroll: FunctionComponent<TextScrollProps> = ({
   children,
   direction = "right",
   start = 0,

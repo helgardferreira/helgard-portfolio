@@ -14,16 +14,18 @@ import blobVertex from "raw-loader!./shaders/blobVertex.glsl"
 import { useDispatch, useSelector, useStore } from "react-redux"
 import { MotionAction } from "../../state/reducers/motion.reducer"
 
-interface IBlobProps {
+type Nullable<T> = T | null
+
+interface BlobProps {
   isInvalid?: boolean
   isModified?: boolean
   segments?: number
   wireframe?: boolean
   sizeFactor?: number
-  navRef?: RefObject<HTMLElement>
+  navRef?: Nullable<RefObject<HTMLElement>>
 }
 
-const Blob: FunctionComponent<IBlobProps & JSX.IntrinsicElements["mesh"]> = ({
+const Blob: FunctionComponent<BlobProps & JSX.IntrinsicElements["mesh"]> = ({
   isInvalid = false,
   isModified = false,
   segments = 50,

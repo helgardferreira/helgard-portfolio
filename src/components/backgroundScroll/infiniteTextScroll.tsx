@@ -1,13 +1,13 @@
 import React, { FunctionComponent } from "react"
 import TextScroll from "./textScroll"
 
-interface IProps {
+interface InfiniteTextScrollProps {
   direction?: "left" | "right"
   height: number | string
   width: number
 }
 
-const InfiniteTextScroll: FunctionComponent<IProps> = ({
+const InfiniteTextScroll: FunctionComponent<InfiniteTextScrollProps> = ({
   children,
   direction,
   height,

@@ -1,12 +1,15 @@
-import React, { useRef } from "react"
+import React, { useEffect, useRef } from "react"
+import { useDispatch } from "react-redux"
 import styled from "styled-components"
 
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 import WhoIAm from "../components/styled/home/whoIAm"
+import Portfolio from "../components/styled/home/portfolio"
 import { Container } from "../components/styled/utils"
-
 import HandCanvas from "../components/webgl/handCanvas"
+
+import { UpdateNavRefAction } from "../state/reducers/navRef.reducer"
 
 /* const HeaderHeading = styled.h1`
   position: absolute;
@@ -21,13 +24,6 @@ const ArtistName = styled.h2`
 
   font-size: min(23vw, 430px);
 ` */
-
-const WhoIAmSection = styled.section`
-  position: relative;
-  background: white;
-  overflow: hidden;
-  height: 100vh;
-`
 
 const HeaderCopy = styled.div`
   height: 100vh;
@@ -53,9 +49,35 @@ const Header = styled.header`
   height: 100vh;
 `
 
+const WhoIAmSection = styled.section`
+  position: relative;
+  background: white;
+  overflow: hidden;
+  height: 100vh;
+`
+
+const PortfolioSection = styled.section`
+  padding: 120px 0;
+`
+
 const IndexPage = () => {
-  const whoIAmRef = useRef<HTMLDivElement>(null)
   const headerRef = useRef<HTMLDivElement>(null)
+  const whoIAmRef = useRef<HTMLDivElement>(null)
+  const portfolioRef = useRef<HTMLDivElement>(null)
+
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch<UpdateNavRefAction>({
+      type: "UPDATE_NAV_REF",
+      thumb: whoIAmRef,
+      index: portfolioRef,
+      middle: null,
+      ring: null,
+      pinkie: null,
+      palm: headerRef,
+    })
+  }, [])
 
   return (
     <Layout>
@@ -67,20 +89,14 @@ const IndexPage = () => {
             <HeaderHeading>HELLO, I&apos;M HELGARD</HeaderHeading>
           </HeaderCopy>
         </Container>
-        <HandCanvas
-          navRefs={[
-            whoIAmRef,
-            useRef<HTMLDivElement>(null),
-            useRef<HTMLDivElement>(null),
-            useRef<HTMLDivElement>(null),
-            useRef<HTMLDivElement>(null),
-            headerRef,
-          ]}
-        />
+        <HandCanvas />
       </Header>
       <WhoIAmSection ref={whoIAmRef}>
         <WhoIAm />
       </WhoIAmSection>
+      <PortfolioSection ref={portfolioRef}>
+        <Portfolio />
+      </PortfolioSection>
     </Layout>
   )
 }

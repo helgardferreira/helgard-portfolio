@@ -44,17 +44,17 @@ type GLTFResult = GLTF & {
 type ActionName = "rigAction"
 type GLTFActions = Record<ActionName, AnimationAction>
 
-interface IHandProps {
+interface HandProps {
   gltfURL: string
   textureURL: string
 }
 
-interface IFragmentUniforms {
+interface FragmentUniforms {
   [uniform: string]: IUniform
 }
 
 const HandAnimatedModel: FunctionComponent<
-  IHandProps & JSX.IntrinsicElements["group"]
+  HandProps & JSX.IntrinsicElements["group"]
 > = ({ gltfURL, textureURL, ...props }) => {
   const store = useStore<{ motion: MotionState }>()
   const dispatch = useDispatch()
@@ -66,7 +66,7 @@ const HandAnimatedModel: FunctionComponent<
     animations,
   } = useGLTF<GLTFResult>(gltfURL)
   const texture = useTexture(textureURL)
-  const uniforms = useRef<IFragmentUniforms>({
+  const uniforms = useRef<FragmentUniforms>({
     time: { value: 0 },
     marble: { value: texture },
   })

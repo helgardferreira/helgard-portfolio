@@ -2,11 +2,11 @@ import React, { FunctionComponent, ReactElement } from "react"
 import { useSpring, animated, config } from "react-spring"
 import { useCycle } from "framer-motion"
 
-interface IProps {
+interface LoopTextProps {
   children: ReactElement<HTMLSpanElement>[]
 }
 
-const LoopText: FunctionComponent<IProps> = ({ children }) => {
+const LoopText: FunctionComponent<LoopTextProps> = ({ children }) => {
   const [element, cycleChild] = useCycle(...children)
 
   const { opacity, y } = useSpring({

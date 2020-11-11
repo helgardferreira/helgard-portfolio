@@ -12,11 +12,12 @@ import styled from "styled-components"
 import Blob from "./blob"
 import HandAnimatedModel from "./handAnimated"
 import SceneLoader from "../sceneLoader"
-import { Provider, ReactReduxContext } from "react-redux"
+import { Provider, ReactReduxContext, useSelector } from "react-redux"
 import { useTransform, useViewportScroll } from "framer-motion"
 import useWindowSize from "../../lib/hooks/useWindowSize"
 import { Group } from "three"
 import { interpolate } from "@popmotion/popcorn"
+import { NavRefState } from "../../state/reducers/navRef.reducer"
 
 // Useful for exploring scene in development mode
 // import CameraControls from "./cameraControls"
@@ -30,60 +31,64 @@ const SceneLights = () => (
   </group>
 )
 
-const FingerBlobs: FunctionComponent<{ navRefs: RefObject<HTMLElement>[] }> = ({
-  navRefs,
-}) => (
-  <group>
-    {/* Thumb */}
-    <Blob
-      wireframe
-      segments={20}
-      position={[-18, -10, -30]}
-      sizeFactor={1}
-      navRef={navRefs[0]}
-    />
-    {/* Index */}
-    <Blob
-      wireframe
-      segments={20}
-      position={[-9, -4, -40]}
-      sizeFactor={1}
-      navRef={navRefs[1]}
-    />
-    {/* Middle */}
-    <Blob
-      wireframe
-      segments={20}
-      position={[0, -2.5, -36]}
-      sizeFactor={1}
-      navRef={navRefs[2]}
-    />
-    {/* Ring */}
-    <Blob
-      wireframe
-      segments={20}
-      position={[7, -4, -35]}
-      sizeFactor={1}
-      navRef={navRefs[3]}
-    />
-    {/* Pinkie */}
-    <Blob
-      wireframe
-      segments={20}
-      position={[12.5, -7, -33]}
-      sizeFactor={1}
-      navRef={navRefs[4]}
-    />
-    {/* Palm */}
-    <Blob
-      wireframe
-      segments={40}
-      position={[0, -15, -25]}
-      sizeFactor={6}
-      navRef={navRefs[5]}
-    />
-  </group>
-)
+const FingerBlobs: FunctionComponent = () => {
+  const navRefs = useSelector<{ navRefs: NavRefState }, NavRefState>(
+    state => state.navRefs
+  )
+
+  return (
+    <group>
+      {/* Thumb */}
+      <Blob
+        wireframe
+        segments={20}
+        position={[-18, -10, -30]}
+        sizeFactor={1}
+        navRef={navRefs.thumb}
+      />
+      {/* Index */}
+      <Blob
+        wireframe
+        segments={20}
+        position={[-9, -4, -40]}
+        sizeFactor={1}
+        navRef={navRefs.index}
+      />
+      {/* Middle */}
+      <Blob
+        wireframe
+        segments={20}
+        position={[0, -2.5, -36]}
+        sizeFactor={1}
+        navRef={navRefs.middle}
+      />
+      {/* Ring */}
+      <Blob
+        wireframe
+        segments={20}
+        position={[7, -4, -35]}
+        sizeFactor={1}
+        navRef={navRefs.ring}
+      />
+      {/* Pinkie */}
+      <Blob
+        wireframe
+        segments={20}
+        position={[12.5, -7, -33]}
+        sizeFactor={1}
+        navRef={navRefs.pinkie}
+      />
+      {/* Palm */}
+      <Blob
+        wireframe
+        segments={40}
+        position={[0, -15, -25]}
+        sizeFactor={6}
+        navRef={navRefs.palm}
+      />
+    </group>
+  )
+}
 
 // const CanvasContainer = styled(motion.div)`
 const CanvasContainer = styled.div`
@@ -95,9 +100,7 @@ const CanvasContainer = styled.div`
   height: 100vh;
 `
 
-const HandCanvas: FunctionComponent<{
-  navRefs: RefObject<HTMLElement>[]
-}> = ({ navRefs }) => {
+const HandCanvas: FunctionComponent = () => {
   // const mouse = useRef({ x: 0, y: 0 })
   const { handAnimated, textureImage } = useStaticQuery(graphql`
     query {
@@ -112,11 +115,7 @@ const HandCanvas: FunctionComponent<{
 
   const { height } = useWindowSize()
   const { scrollY } = useViewportScroll()
-  const shrinkSize = useTransform(
-    scrollY,
-    [0, height ? height : 900],
-    [1, 0.2999999999999999]
-  )
+  const shrinkSize = useTransform(scrollY, [0, height ? height : 900], [1, 0.3])
 
   /* const xPos = useTransform(shrinkSize, [1, 0.1], [0, 4])
   const rotVal = useTransform(xPos, val => val / 10) */
@@ -137,7 +136,7 @@ const HandCanvas: FunctionComponent<{
   useEffect(() => {
     pixelRatio.current = window.devicePixelRatio
 
-    const mapper = interpolate([0, window.innerHeight], [1, 0.2999999999999999])
+    const mapper = interpolate([0, window.innerHeight], [1, 0.3001])
 
     setTimeout(() => {
       shrinkSize.set(mapper(window.scrollY) as number)
@@ -168,7 +167,7 @@ const HandCanvas: FunctionComponent<{
                     scale={[40, 40, 40]}
                   />
 
-                  <FingerBlobs navRefs={navRefs} />
+                  <FingerBlobs />
                 </group>
               </Suspense>
               {/* <CameraControls /> */}

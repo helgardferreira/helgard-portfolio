@@ -11,14 +11,14 @@ import { useStaticQuery, graphql } from "gatsby"
 
 type MetaProps = JSX.IntrinsicElements["meta"]
 
-interface IProps {
+interface SeoProps {
   description?: string
   lang?: string
   meta?: MetaProps[]
   title?: string
 }
 
-const SEO: FunctionComponent<IProps> = ({
+const SEO: FunctionComponent<SeoProps> = ({
   description = "",
   lang = "en",
   meta = [],

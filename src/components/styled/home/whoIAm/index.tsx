@@ -1,8 +1,8 @@
 import React from "react"
 import styled from "styled-components"
-import BackgroundScroll from "../../backgroundScroll"
-import LoopText from "../../loopText"
-import { Container } from "../utils"
+import BackgroundScroll from "../../../backgroundScroll"
+import LoopText from "../../../loopText"
+import { Container } from "../../utils"
 
 const CreativeIntelligence = styled.div`
   position: absolute;
@@ -63,9 +63,10 @@ const WhoIAm = () => {
           <Description>
             <p>
               I&apos;m fluent in <strong>JavaScript</strong>,{" "}
-              <strong>TypeScript</strong>, <strong>React</strong>, and{" "}
-              <strong>Vue</strong> – I love making applications that push
-              boundaries and tease minds.
+              <strong>TypeScript</strong>, <strong>React</strong>,{" "}
+              <strong>Vue</strong>, <strong>NodeJS</strong>, <strong>C#</strong>
+              , and <strong>PostgreSQL</strong> – I love making applications
+              that push boundaries and tease minds.
             </p>
 
             <p>I pride myself on</p>

@@ -1,6 +1,6 @@
-import React, { FunctionComponent } from "react"
+import React, { CSSProperties, FunctionComponent } from "react"
 import { useStaticQuery, graphql } from "gatsby"
-import Img from "gatsby-image"
+import Img, { FluidObject } from "gatsby-image"
 
 /*
  * This component is built using `gatsby-image` to automatically serve optimized
@@ -13,12 +13,37 @@ import Img from "gatsby-image"
  * - `useStaticQuery`: https://www.gatsbyjs.com/docs/use-static-query/
  */
 
-const Image: FunctionComponent = () => {
-  const data = useStaticQuery(graphql`
+export interface ImageProps {
+  fileName: string
+  alt: string
+  className?: string
+  wrapperStyle?: CSSProperties
+  imgStyle?: CSSProperties
+  placeholderStyle?: CSSProperties
+}
+
+const Image: FunctionComponent<ImageProps> = ({
+  fileName,
+  alt,
+  className,
+  wrapperStyle,
+  imgStyle,
+  placeholderStyle,
+}) => {
+  const data: {
+    allImageSharp: {
+      nodes: {
+        id: string
+        fluid: FluidObject & { originalName: string }
+      }[]
+    }
+  } = useStaticQuery(graphql`
     query {
-      placeholderImage: file(relativePath: { eq: "gatsby-astronaut.png" }) {
-        childImageSharp {
-          fluid(maxWidth: 300) {
+      allImageSharp {
+        nodes {
+          id
+          fluid(maxWidth: 800) {
+            originalName
             ...GatsbyImageSharpFluid
           }
         }
@@ -26,11 +51,24 @@ const Image: FunctionComponent = () => {
     }
   `)
 
-  if (!data?.placeholderImage?.childImageSharp?.fluid) {
-    return <div>Picture not found</div>
-  }
+  if (!data?.allImageSharp?.nodes) return <div>Pictures were not found</div>
 
-  return <Img fluid={data.placeholderImage.childImageSharp.fluid} />
+  const fluid = data.allImageSharp.nodes.find(
+    ({ fluid }) => fluid.originalName === fileName
+  )?.fluid
+
+  if (!fluid) return <div>Picture was not found</div>
+
+  return (
+    <Img
+      fluid={fluid}
+      alt={alt}
+      className={className}
+      style={wrapperStyle}
+      imgStyle={imgStyle}
+      placeholderStyle={placeholderStyle}
+    />
+  )
 }
 
 export default Image

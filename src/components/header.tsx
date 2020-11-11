@@ -1,11 +1,11 @@
 import { Link } from "gatsby"
 import React, { FunctionComponent } from "react"
 
-interface IProps {
+interface HeaderProps {
   siteTitle: string
 }
 
-const Header: FunctionComponent<IProps> = ({ siteTitle }) => (
+const Header: FunctionComponent<HeaderProps> = ({ siteTitle }) => (
   <header
     style={{
       background: `rebeccapurple`,
