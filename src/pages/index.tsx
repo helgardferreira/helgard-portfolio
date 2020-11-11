@@ -63,7 +63,6 @@ const PortfolioSection = styled.section`
 const IndexPage = () => {
   const headerRef = useRef<HTMLDivElement>(null)
   const whoIAmRef = useRef<HTMLDivElement>(null)
-  const portfolioRef = useRef<HTMLDivElement>(null)
 
   const dispatch = useDispatch()
 
@@ -71,10 +70,6 @@ const IndexPage = () => {
     dispatch<UpdateNavRefAction>({
       type: "UPDATE_NAV_REF",
       thumb: whoIAmRef,
-      index: portfolioRef,
-      middle: null,
-      ring: null,
-      pinkie: null,
       palm: headerRef,
     })
   }, [])
@@ -94,7 +89,7 @@ const IndexPage = () => {
       <WhoIAmSection ref={whoIAmRef}>
         <WhoIAm />
       </WhoIAmSection>
-      <PortfolioSection ref={portfolioRef}>
+      <PortfolioSection>
         <Portfolio />
       </PortfolioSection>
     </Layout>
