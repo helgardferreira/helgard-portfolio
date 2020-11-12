@@ -11,6 +11,8 @@ import Button from "../../../button"
 import { Provider, ReactReduxContext } from "react-redux"
 
 const StyledForm = styled.form`
+  position: relative;
+  z-index: 1;
   width: 100%;
   max-width: 600px;
   border-radius: 8px;
@@ -254,7 +256,7 @@ const Contact = () => {
               <BlobScene />
             </BlobContainer> */}
             {/* <ContactContent> */}
-              <Form {...formik} />
+            <Form {...formik} />
             {/* </ContactContent> */}
           </Flex>
         )}
