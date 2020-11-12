@@ -33,6 +33,11 @@ const NavLink = styled.a`
   &:link {
     text-decoration: none;
   }
+
+  &:hover,
+  &:focus {
+    text-decoration: underline;
+  }
 `
 
 interface BlobProps {
