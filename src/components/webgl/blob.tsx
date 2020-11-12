@@ -48,6 +48,7 @@ interface BlobProps {
   sizeFactor?: number
   navRef?: RefObject<HTMLElement>
   navName?: string
+  navOffset?: Vector3
 }
 
 const Blob: FunctionComponent<BlobProps & JSX.IntrinsicElements["mesh"]> = ({
@@ -58,6 +59,7 @@ const Blob: FunctionComponent<BlobProps & JSX.IntrinsicElements["mesh"]> = ({
   sizeFactor: size = 1,
   navRef,
   navName,
+  navOffset,
   position,
   ...props
 }) => {
@@ -106,13 +108,17 @@ const Blob: FunctionComponent<BlobProps & JSX.IntrinsicElements["mesh"]> = ({
   const customMaterial = useRef<ShaderMaterial>(null)
   const guiText = useRef<HTMLAnchorElement>(null)
 
-  const offsetVector = new Vector3(-4, 4.5, 0)
+  const offsetVector = new Vector3(-4, 4.8, 0)
 
   // Add text offset
   if (position instanceof Vector3) {
     offsetVector.add(position)
   } else if (position !== undefined) {
     offsetVector.add(new Vector3(...position))
+  }
+
+  if (navOffset !== undefined) {
+    offsetVector.add(navOffset)
   }
 
   const clickHandler = useCallback(

@@ -9,7 +9,7 @@ import SceneLoader from "../sceneLoader"
 import { Provider, ReactReduxContext, useSelector } from "react-redux"
 import { useTransform, useViewportScroll } from "framer-motion"
 import useWindowSize from "../../lib/hooks/useWindowSize"
-import { Group } from "three"
+import { Group, Vector3 } from "three"
 import { interpolate } from "@popmotion/popcorn"
 import { NavRefState } from "../../state/reducers/navRef.reducer"
 
@@ -66,6 +66,8 @@ const FingerBlobs: FunctionComponent = () => {
         position={[7, -4, -35]}
         sizeFactor={1}
         navRef={navRefs.ring}
+        navName="CONTACT"
+        navOffset={new Vector3(2, -1, 0)}
       />
       {/* Pinkie */}
       <Blob
