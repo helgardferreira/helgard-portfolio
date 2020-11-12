@@ -1,38 +1,48 @@
-import React, { FunctionComponent, ReactElement } from "react"
-import { useSpring, animated, config } from "react-spring"
-import { useCycle } from "framer-motion"
+import React, { FunctionComponent, ReactElement, useEffect } from "react"
+import { useCycle, AnimatePresence, motion } from "framer-motion"
+import styled from "styled-components"
+
+const AnimatedText = styled(motion.div)`
+  position: relative;
+
+  span {
+    position: absolute;
+  }
+`
 
 interface LoopTextProps {
   children: ReactElement<HTMLSpanElement>[]
 }
 
 const LoopText: FunctionComponent<LoopTextProps> = ({ children }) => {
-  const [element, cycleChild] = useCycle(...children)
+  // const [element, cycleChild] = useCycle(...children)
+  const [index, cycleIndex] = useCycle(...Array(children.length).keys())
 
-  const { opacity, y } = useSpring({
-    to: async next => {
-      while (true) {
-        await next({ y: 10, opacity: 0, delay: 3500 })
-        cycleChild()
-        await next({ y: 0, opacity: 1, delay: 10 })
-      }
-    },
-    from: { opacity: 1, y: 0 },
-    config: {
-      ...config.wobbly,
-      clamp: true,
-    },
-  })
+  useEffect(() => {
+    const token = setInterval(() => {
+      cycleIndex()
+    }, 3200)
+    return () => {
+      clearInterval(token)
+    }
+  }, [])
 
   return (
-    <animated.div
-      style={{
-        opacity: opacity as any,
-        translate3d: y.to(y => [0, `${y}px`, 0]),
-      }}
-    >
-      {element}
-    </animated.div>
+    <AnimatePresence>
+      {children.map((element, i) =>
+        i === index ? (
+          <AnimatedText
+            key={i}
+            initial={{ opacity: 0, y: 0 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 40 }}
+            transition={{ duration: 0.4 }}
+          >
+            {element}
+          </AnimatedText>
+        ) : null
+      )}
+    </AnimatePresence>
   )
 }
 
