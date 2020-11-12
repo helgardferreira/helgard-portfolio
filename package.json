@@ -1,7 +1,7 @@
 {
-  "name": "gatsby-three-starter",
+  "name": "helgard-portfolio",
   "private": true,
-  "description": "A simple starter to get up and developing quickly with Gatsby & ThreeJS",
+  "description": "This portfolio website showcases some of my frontend development skills.",
   "version": "0.1.0",
   "author": "Helgard Richard Ferreira <hrfer3@gmail.com>",
   "dependencies": {
@@ -60,6 +60,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/helgardferreira/gatsby-three-starter"
+    "url": "https://github.com/helgardferreira/helgard-portfolio"
   }
 }

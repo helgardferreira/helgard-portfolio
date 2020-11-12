@@ -1,7 +1,7 @@
 module.exports = {
   siteMetadata: {
-    title: `Gatsby ThreeJS Starter`,
-    description: `A simple starter to get up and developing quickly with Gatsby & ThreeJS.`,
+    title: `Helgard's Portfolio`,
+    description: `This portfolio website showcases some of my frontend development skills.`,
     author: `Helgard Richard Ferreira`,
   },
   plugins: [
@@ -25,8 +25,8 @@ module.exports = {
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: `gatsby-three-starter`,
-        short_name: `gatsby-three-starter`,
+        name: `helgard-portfolio`,
+        short_name: `helgard-portfolio`,
         start_url: `/`,
         background_color: `#663399`,
         theme_color: `#663399`,
