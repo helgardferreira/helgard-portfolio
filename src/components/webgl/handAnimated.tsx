@@ -7,7 +7,7 @@ import React, {
   useCallback,
 } from "react"
 import { useFrame } from "react-three-fiber"
-import { Text } from "@react-three/drei"
+// import { Html } from "@react-three/drei"
 
 import { GLTF } from "three/examples/jsm/loaders/GLTFLoader"
 import {
@@ -17,7 +17,6 @@ import {
   Group,
   IUniform,
   LoopOnce,
-  Mesh,
   MeshStandardMaterial,
   ShaderMaterial,
   SkinnedMesh,
@@ -32,6 +31,21 @@ import fluidMarbleVertex from "raw-loader!./shaders/fluidMarbleVertex.glsl"
 import { useSpring } from "framer-motion"
 import { useDispatch, useStore } from "react-redux"
 import { MotionAction, MotionState } from "../../state/reducers/motion.reducer"
+// import styled from "styled-components"
+
+/* const NavLink = styled.a`
+  color: #d94c4c;
+  font-weight: bold;
+  font-family: "Raleway", sans-serif;
+  font-size: 0;
+
+  display: inline-block;
+  width: 200px;
+
+  &:link {
+    text-decoration: none;
+  }
+` */
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -94,9 +108,9 @@ const HandAnimatedModel: FunctionComponent<
     damping: 20,
   })
 
-  const textMesh = useRef<Mesh>(null)
+  // const guiText = useRef<HTMLAnchorElement>(null)
 
-  const offsetVector = new Vector3(0.1, 81.7, -1)
+  const offsetVector = new Vector3(-0.2, 82.2, 0)
 
   // Add text offset
   if (position instanceof Vector3) {
@@ -138,9 +152,9 @@ const HandAnimatedModel: FunctionComponent<
     document.body.style.cursor = "auto"
   }, [])
 
-  textMotion.onChange(val => {
-    if (textMesh.current) textMesh.current.scale.set(val, val, val)
-  })
+  /* textMotion.onChange(val => {
+    if (guiText.current) guiText.current.style.fontSize = `${42 * val}px`
+  }) */
 
   store.subscribe(() => {
     motion.set(store.getState().motion.handMotionValue)
@@ -200,24 +214,6 @@ const HandAnimatedModel: FunctionComponent<
           />
         </group>
       </group>
-
-      <Text
-        scale={[0, 0, 0]}
-        ref={textMesh}
-        color="#EC2D2D"
-        fontSize={0.1}
-        maxWidth={40}
-        lineHeight={1}
-        letterSpacing={0}
-        font="https://fonts.gstatic.com/s/raleway/v14/1Ptrg8zYS_SKggPNwK4vaqI.woff"
-        position={offsetVector}
-        rotation={[0, 0, -0.25]}
-        onClick={clickHandler}
-        onPointerMove={pointerMoveHandler}
-        onPointerOut={pointerOutHandler}
-      >
-        CLICK ME
-      </Text>
     </group>
   )
 }

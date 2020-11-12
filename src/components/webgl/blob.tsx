@@ -4,6 +4,7 @@ import React, {
   useEffect,
   RefObject,
   useCallback,
+  MouseEvent,
 } from "react"
 import { useFrame } from "react-three-fiber"
 import {
@@ -20,7 +21,19 @@ import { useSpring, useTransform } from "framer-motion"
 import blobVertex from "raw-loader!./shaders/blobVertex.glsl"
 import { useDispatch, useSelector, useStore } from "react-redux"
 import { MotionAction } from "../../state/reducers/motion.reducer"
-import { Text } from "@react-three/drei"
+import { Html } from "@react-three/drei"
+import styled from "styled-components"
+
+const NavLink = styled.a`
+  color: #d94c4c;
+  font-weight: bold;
+  font-family: "Raleway", sans-serif;
+  font-size: 21px;
+
+  &:link {
+    text-decoration: none;
+  }
+`
 
 interface BlobProps {
   isInvalid?: boolean
@@ -86,9 +99,9 @@ const Blob: FunctionComponent<BlobProps & JSX.IntrinsicElements["mesh"]> = ({
 
   const mesh = useRef<Mesh<SphereGeometry>>(null)
   const customMaterial = useRef<ShaderMaterial>(null)
-  const textMesh = useRef<Mesh>(null)
+  const guiText = useRef<HTMLAnchorElement>(null)
 
-  const offsetVector = new Vector3(0, 3, 0)
+  const offsetVector = new Vector3(-4, 4.5, 0)
 
   // Add text offset
   if (position instanceof Vector3) {
@@ -97,26 +110,31 @@ const Blob: FunctionComponent<BlobProps & JSX.IntrinsicElements["mesh"]> = ({
     offsetVector.add(new Vector3(...position))
   }
 
-  const clickHandler = useCallback(() => {
-    if (!active) {
-      amp.set(0.8)
-      dispatch<MotionAction>({
-        type: "UPDATE_MOTION",
-        handMotionValue: 0,
-      })
+  const clickHandler = useCallback(
+    (e?: MouseEvent<any, any>) => {
+      if (e && e.preventDefault) e.preventDefault()
 
-      if (navRef && navRef.current) {
-        const elementYPos =
-          window.scrollY + navRef.current.getBoundingClientRect().top
-
-        window.scrollTo({
-          top: elementYPos,
-          left: 0,
-          behavior: "smooth",
+      if (!active) {
+        amp.set(0.8)
+        dispatch<MotionAction>({
+          type: "UPDATE_MOTION",
+          handMotionValue: 0,
         })
+
+        if (navRef && navRef.current) {
+          const elementYPos =
+            window.scrollY + navRef.current.getBoundingClientRect().top
+
+          window.scrollTo({
+            top: elementYPos,
+            left: 0,
+            behavior: "smooth",
+          })
+        }
       }
-    }
-  }, [active, amp, dispatch, navRef])
+    },
+    [active, amp, dispatch, navRef]
+  )
 
   const pointerOverHandler = useCallback(() => {
     if (!active) {
@@ -135,8 +153,8 @@ const Blob: FunctionComponent<BlobProps & JSX.IntrinsicElements["mesh"]> = ({
   blobMotion.onChange(val => {
     const newTextSize = motion.get()
     if (mesh.current) mesh.current.scale.set(val, val, val)
-    if (textMesh.current)
-      textMesh.current.scale.set(newTextSize, newTextSize, newTextSize)
+    if (guiText.current)
+      guiText.current.style.fontSize = `${21 * newTextSize}px`
   })
 
   store.subscribe(() => {
@@ -190,21 +208,18 @@ const Blob: FunctionComponent<BlobProps & JSX.IntrinsicElements["mesh"]> = ({
         />
       </mesh>
       {navName ? (
-        <Text
-          ref={textMesh}
-          color="#EC2D2D"
-          fontSize={1.4}
-          maxWidth={40}
-          lineHeight={1}
-          letterSpacing={0}
-          font="https://fonts.gstatic.com/s/raleway/v14/1Ptrg8zYS_SKggPNwK4vaqI.woff"
-          position={offsetVector}
-          onClick={clickHandler}
-          onPointerOver={pointerOverHandler}
-          onPointerOut={pointerOutHandler}
-        >
-          {navName}
-        </Text>
+        <Html position={offsetVector}>
+          <NavLink
+            onClick={clickHandler}
+            onMouseOver={pointerOverHandler}
+            onFocus={pointerOverHandler}
+            onMouseOut={pointerOutHandler}
+            href="#"
+            ref={guiText}
+          >
+            {navName}
+          </NavLink>
+        </Html>
       ) : null}
     </group>
   )
