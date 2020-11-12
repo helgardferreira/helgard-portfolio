@@ -4,10 +4,11 @@ import styled from "styled-components"
 
 import Layout from "../components/layout"
 import SEO from "../components/seo"
-import WhoIAm from "../components/styled/home/whoIAm"
-import Portfolio from "../components/styled/home/portfolio"
 import { Container } from "../components/styled/utils"
 import HandCanvas from "../components/webgl/handCanvas"
+import WhoIAm from "../components/styled/home/whoIAm"
+import Portfolio from "../components/styled/home/portfolio"
+import Contact from "../components/styled/home/contact"
 
 import { UpdateNavRefAction } from "../state/reducers/navRef.reducer"
 
@@ -60,9 +61,15 @@ const PortfolioSection = styled.section`
   padding: 120px 0;
 `
 
+const ContactSection = styled.section`
+  background: #2c2f33;
+  padding: 120px 0;
+`
+
 const IndexPage = () => {
   const headerRef = useRef<HTMLDivElement>(null)
   const whoIAmRef = useRef<HTMLDivElement>(null)
+  const contactRef = useRef<HTMLDivElement>(null)
 
   const dispatch = useDispatch()
 
@@ -71,6 +78,7 @@ const IndexPage = () => {
       type: "UPDATE_NAV_REF",
       thumb: whoIAmRef,
       palm: headerRef,
+      ring: contactRef,
     })
   }, [])
 
@@ -81,10 +89,10 @@ const IndexPage = () => {
       <Header ref={headerRef}>
         <Container>
           <HeaderCopy>
+            <HandCanvas />
             <HeaderHeading>HELLO, I&apos;M HELGARD</HeaderHeading>
           </HeaderCopy>
         </Container>
-        <HandCanvas />
       </Header>
       <WhoIAmSection ref={whoIAmRef}>
         <WhoIAm />
@@ -92,6 +100,9 @@ const IndexPage = () => {
       <PortfolioSection>
         <Portfolio />
       </PortfolioSection>
+      <ContactSection ref={contactRef}>
+        <Contact />
+      </ContactSection>
     </Layout>
   )
 }
