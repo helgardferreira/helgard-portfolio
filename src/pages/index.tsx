@@ -54,7 +54,7 @@ const WhoIAmSection = styled.section`
   position: relative;
   background: white;
   overflow: hidden;
-  /* height: 100vh; */
+  min-height: 100vh;
 `
 
 const PortfolioSection = styled.section`
