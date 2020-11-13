@@ -22,7 +22,7 @@ const CreativeIntelligence = styled.div`
 `
 
 const AboutCopy = styled.div`
-  padding: 120px 0;
+  padding: 120px 0 140px 0;
   color: black;
 
   h2 {
