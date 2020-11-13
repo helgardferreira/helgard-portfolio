@@ -34,6 +34,7 @@ const FingerBlobs: FunctionComponent = () => {
     <group>
       {/* Thumb */}
       <Blob
+        isClickable
         wireframe
         segments={20}
         position={[-18, -10, -30]}
@@ -43,15 +44,18 @@ const FingerBlobs: FunctionComponent = () => {
       />
       {/* Index */}
       <Blob
+        isClickable
         wireframe
         segments={20}
         position={[-9, -4, -40]}
         sizeFactor={1}
         navRef={navRefs.index}
         navName="FULLTIME"
+        navOffset={new Vector3(-1, 0, 0)}
       />
       {/* Middle */}
       <Blob
+        isClickable
         wireframe
         segments={20}
         position={[0, -2.5, -36]}
@@ -61,16 +65,18 @@ const FingerBlobs: FunctionComponent = () => {
       />
       {/* Ring */}
       <Blob
+        isClickable
         wireframe
         segments={20}
         position={[7, -4, -35]}
         sizeFactor={1}
         navRef={navRefs.ring}
         navName="CONTACT"
-        navOffset={new Vector3(2, -1, 0)}
+        navOffset={new Vector3(2.5, -1, 0)}
       />
       {/* Pinkie */}
       <Blob
+        isClickable
         wireframe
         segments={20}
         position={[12.5, -7, -33]}
@@ -79,6 +85,7 @@ const FingerBlobs: FunctionComponent = () => {
       />
       {/* Palm */}
       <Blob
+        isClickable
         wireframe
         segments={40}
         position={[0, -15, -25]}

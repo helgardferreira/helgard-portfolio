@@ -46,6 +46,7 @@ interface BlobProps {
   segments?: number
   wireframe?: boolean
   sizeFactor?: number
+  isClickable?: boolean
   navRef?: RefObject<HTMLElement>
   navName?: string
   navOffset?: Vector3
@@ -57,6 +58,7 @@ const Blob: FunctionComponent<BlobProps & JSX.IntrinsicElements["mesh"]> = ({
   segments = 50,
   wireframe = false,
   sizeFactor: size = 1,
+  isClickable = false,
   navRef,
   navName,
   navOffset,
@@ -125,7 +127,7 @@ const Blob: FunctionComponent<BlobProps & JSX.IntrinsicElements["mesh"]> = ({
     (e?: MouseEvent<any, any>) => {
       if (e && e.preventDefault) e.preventDefault()
 
-      if (!active) {
+      if (!active && isClickable) {
         amp.set(0.8)
         dispatch<MotionAction>({
           type: "UPDATE_MOTION",
@@ -148,14 +150,14 @@ const Blob: FunctionComponent<BlobProps & JSX.IntrinsicElements["mesh"]> = ({
   )
 
   const pointerOverHandler = useCallback(() => {
-    if (!active) {
+    if (!active && isClickable) {
       amp.set(0.6)
       document.body.style.cursor = "pointer"
     }
   }, [active, amp])
 
   const pointerOutHandler = useCallback(() => {
-    if (!active) {
+    if (!active && isClickable) {
       amp.set(0.0)
       document.body.style.cursor = "auto"
     }
@@ -169,7 +171,7 @@ const Blob: FunctionComponent<BlobProps & JSX.IntrinsicElements["mesh"]> = ({
   })
 
   store.subscribe(() => {
-    motion.set(store.getState().motion.handMotionValue)
+    if (isClickable) motion.set(store.getState().motion.handMotionValue)
   })
 
   useEffect(() => {

@@ -13,15 +13,15 @@ const PortfolioGrid = styled.div`
   grid-template-columns: repeat(auto-fit, minmax(320px, 420px));
   grid-auto-rows: minmax(450px, 500px);
   gap: 40px;
-  margin-bottom: 40px;
+  /* margin-bottom: 40px; */
 `
 
 const PortfolioItem = styled.div`
   position: relative;
   z-index: 1;
 
-  background: #2c2f33;
-  border-radius: 4px;
+  /* background: #2c2f33; */
+  /* border-radius: 4px; */
 
   color: white;
 
@@ -45,15 +45,18 @@ const PortfolioItem = styled.div`
 const StyledImage = styled(Image)<ImageProps>`
   height: 220px;
   background: white;
+  border-radius: 4px;
 `
 
 const PortfolioContent = styled.div`
   height: 240px;
-  padding: 20px;
+  padding: 20px 0;
 `
 
-const PortfolioLinks = styled.div`
-  padding: 0 20px;
+const PortfolioLinks = styled.div``
+
+const CategoryHeading = styled.h2`
+  padding-top: 40px;
 `
 
 const TechSpan = styled.span<{ color: string }>`
@@ -79,7 +82,7 @@ const Portfolio = () => {
 
   return (
     <Container>
-      <h2 ref={fullTimeRef}>FULL-TIME</h2>
+      <CategoryHeading ref={fullTimeRef}>FULL-TIME</CategoryHeading>
       <PortfolioGrid>
         <PortfolioItem>
           <StyledImage
@@ -147,7 +150,7 @@ const Portfolio = () => {
         </PortfolioItem>
       </PortfolioGrid>
 
-      <h2 ref={freelanceRef}>FREELANCE & PERSONAL</h2>
+      <CategoryHeading ref={freelanceRef}>FREELANCE & PERSONAL</CategoryHeading>
       <PortfolioGrid>
         <PortfolioItem>
           <StyledImage

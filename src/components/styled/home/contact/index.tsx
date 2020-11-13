@@ -14,10 +14,10 @@ const StyledForm = styled.form`
   position: relative;
   z-index: 1;
   width: 100%;
-  max-width: 600px;
+  /* max-width: 600px; */
   border-radius: 8px;
   color: #fff;
-  height: fit-content;
+  /* height: fit-content; */
 `
 
 const StyledLabel = styled.label`
@@ -88,16 +88,17 @@ const FormButton = styled(Button)<{ isInvalid?: boolean }>`
 `
 
 const ContactContent = styled.div`
-  width: 50%;
+  width: 40%;
+  min-width: 450px;
   display: flex;
-  justify-content: center;
+  /* justify-content: center; */
   align-items: center;
 `
 
 const BlobContainer = styled.div`
   display: inline-block;
-  width: 500px;
-  height: 700px;
+  width: 120px;
+  height: 600px;
 `
 
 const Lights: FunctionComponent = () => {
@@ -125,12 +126,36 @@ const BlobScene: FunctionComponent = () => {
       {({ store }) => (
         <Canvas
           camera={{
-            zoom: 30,
-            position: [0, 0, 100],
+            zoom: 1,
+            position: [0, 0, 10],
           }}
         >
           <Provider store={store}>
             <Blob
+              position={new Vector3(0, 6, 0)}
+              isInvalid={!!(touched.fullName && errors.fullName)}
+              isModified={values.fullName !== initialValues.fullName}
+              segments={15}
+              sizeFactor={0.8}
+              wireframe
+            />
+            <Blob
+              position={new Vector3(0, 3, 0)}
+              isInvalid={!!(touched.email && errors.email)}
+              isModified={values.email !== initialValues.email}
+              segments={15}
+              sizeFactor={0.8}
+              wireframe
+            />
+            <Blob
+              position={new Vector3(0, 0, 0)}
+              isInvalid={!!(touched.message && errors.message)}
+              isModified={values.message !== initialValues.message}
+              segments={15}
+              sizeFactor={0.8}
+              wireframe
+            />
+            {/* <Blob
               position={new Vector3(0, 3, -150)}
               isInvalid={!!(touched.fullName && errors.fullName)}
               isModified={values.fullName !== initialValues.fullName}
@@ -147,7 +172,7 @@ const BlobScene: FunctionComponent = () => {
               isInvalid={!!(touched.message && errors.message)}
               isModified={values.message !== initialValues.message}
               wireframe
-            />
+            /> */}
             <Lights />
           </Provider>
         </Canvas>
@@ -224,6 +249,7 @@ const encode = (data: { [key: string]: any }) => {
 const Contact = () => {
   return (
     <Container>
+      <h2>SAY HELLO</h2>
       <Formik<FormValues>
         initialValues={{
           fullName: "",
@@ -252,12 +278,12 @@ const Contact = () => {
       >
         {formik => (
           <Flex justifyContent="left">
-            {/* <BlobContainer>
+            <BlobContainer>
               <BlobScene />
-            </BlobContainer> */}
-            {/* <ContactContent> */}
-            <Form {...formik} />
-            {/* </ContactContent> */}
+            </BlobContainer>
+            <ContactContent>
+              <Form {...formik} />
+            </ContactContent>
           </Flex>
         )}
       </Formik>

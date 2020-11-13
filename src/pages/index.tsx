@@ -27,7 +27,7 @@ const ArtistName = styled.h2`
 ` */
 
 const HeaderCopy = styled.div`
-  height: 100vh;
+  min-height: 100vh;
 `
 
 const HeaderHeading = styled.h1`
@@ -47,7 +47,7 @@ const HeaderHeading = styled.h1`
 
 const Header = styled.header`
   position: relative;
-  height: 100vh;
+  min-height: 100vh;
 `
 
 const WhoIAmSection = styled.section`
@@ -58,11 +58,13 @@ const WhoIAmSection = styled.section`
 `
 
 const PortfolioSection = styled.section`
-  padding: 120px 0;
+  background: #2c2f33;
+  padding: 80px 0 120px 0;
 `
 
 const ContactSection = styled.section`
-  background: #2c2f33;
+  /* background: #2c2f33; */
+  background: #141414;
   padding: 120px 0;
 `
 
