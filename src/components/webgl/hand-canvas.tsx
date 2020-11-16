@@ -62,6 +62,7 @@ const FingerBlobs: FunctionComponent = () => {
         sizeFactor={1}
         navRef={navRefs.middle}
         navName="FREELANCE"
+        navOffset={new Vector3(0, 0.5, 0)}
       />
       {/* Ring */}
       <Blob

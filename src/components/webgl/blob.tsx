@@ -28,7 +28,7 @@ const StyledNavLink = styled.a`
   color: #d94c4c;
   font-weight: bold;
   font-family: "Raleway", sans-serif;
-  font-size: 21px;
+  font-size: 18px;
 
   &:link {
     text-decoration: none;
@@ -167,7 +167,7 @@ const Blob: FunctionComponent<BlobProps & JSX.IntrinsicElements["mesh"]> = ({
     const newTextSize = motion.get()
     if (mesh.current) mesh.current.scale.set(val, val, val)
     if (guiText.current)
-      guiText.current.style.fontSize = `${21 * newTextSize}px`
+      guiText.current.style.fontSize = `${18 * newTextSize}px`
   })
 
   store.subscribe(() => {
