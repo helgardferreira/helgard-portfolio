@@ -62,7 +62,7 @@ const FingerBlobs: FunctionComponent = () => {
         sizeFactor={1}
         navRef={navRefs.middle}
         navName="FREELANCE"
-        navOffset={new Vector3(0, 0.5, 0)}
+        navOffset={new Vector3(0, 0.3, 0)}
       />
       {/* Ring */}
       <Blob
@@ -73,7 +73,7 @@ const FingerBlobs: FunctionComponent = () => {
         sizeFactor={1}
         navRef={navRefs.ring}
         navName="CONTACT"
-        navOffset={new Vector3(2.5, -1, 0)}
+        navOffset={new Vector3(2.5, -0.8, 0)}
       />
       {/* Pinkie */}
       <Blob
@@ -83,6 +83,8 @@ const FingerBlobs: FunctionComponent = () => {
         position={[12.5, -7, -33]}
         sizeFactor={1}
         navRef={navRefs.pinkie}
+        navOffset={new Vector3(2.25, 0, 0)}
+        navName="SOCIALS"
       />
       {/* Palm */}
       <Blob
@@ -120,9 +122,24 @@ const HandCanvas: FunctionComponent = () => {
     }
   `)
 
-  const { height } = useWindowSize()
+  // 1 <-> 1.4693
+  const { height, width } = useWindowSize()
   const { scrollY } = useViewportScroll()
   const shrinkSize = useTransform(scrollY, [0, height ? height : 900], [1, 0.3])
+
+  // maybe over-optimization?
+  /* const xPos: number = useMemo(() => {
+    return interpolate(
+      [1.25, 1.4693],
+      [0, 10]
+    )((width || 1080) / (height || 1920)) as number
+  }, [height, width]) */
+  const xPos: number = interpolate(
+    [1.25, 1.4693],
+    [-1, 10]
+  )((width || 1080) / (height || 1920)) as number
+
+  console.log((width || 1080) / (height || 1920))
 
   /* const xPos = useTransform(shrinkSize, [1, 0.1], [0, 4])
   const rotVal = useTransform(xPos, val => val / 10) */
@@ -133,7 +150,7 @@ const HandCanvas: FunctionComponent = () => {
 
   shrinkSize.onChange(val => {
     sceneGroup.current?.scale.set(val, val, val)
-    sceneGroup.current?.position.set(10, yPos.get(), 14)
+    sceneGroup.current?.position.set(xPos, yPos.get(), 14)
     sceneGroup.current?.rotation.set(0, -1, rotVal.get())
   })
 
@@ -165,7 +182,7 @@ const HandCanvas: FunctionComponent = () => {
                 <Suspense fallback={null}>
                   <group
                     ref={sceneGroup}
-                    position={[10, 7, 14]}
+                    position={[xPos, 7, 14]}
                     rotation={[0, -1, 0]}
                   >
                     <HandAnimatedModel

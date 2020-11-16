@@ -110,7 +110,7 @@ const Blob: FunctionComponent<BlobProps & JSX.IntrinsicElements["mesh"]> = ({
   const customMaterial = useRef<ShaderMaterial>(null)
   const guiText = useRef<HTMLAnchorElement>(null)
 
-  const offsetVector = new Vector3(-4, 4.8, 0)
+  const offsetVector = new Vector3(-5, 4.8, 0)
 
   // Add text offset
   if (position instanceof Vector3) {
