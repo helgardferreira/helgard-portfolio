@@ -1,5 +1,5 @@
 import React from "react"
-import InfiniteTextScroll from "./infiniteTextScroll"
+import InfiniteTextScroll from "./infinite-text-scroll"
 
 const BackgroundScroll = () => {
   return (

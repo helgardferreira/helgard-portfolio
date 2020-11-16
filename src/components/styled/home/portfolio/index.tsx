@@ -1,11 +1,11 @@
 import React, { useEffect, useRef } from "react"
 import styled from "styled-components"
-import { Container } from "../../utils"
+import { StyledContainer } from "../../styled-utils"
 import Image, { ImageProps } from "../../../image"
 import { useDispatch } from "react-redux"
 import { UpdateNavRefAction } from "../../../../state/reducers/navRef.reducer"
 
-const PortfolioGrid = styled.div`
+const StyledPortfolioGrid = styled.div`
   width: 65%;
   display: grid;
   /* justify-content: space-between; */
@@ -16,7 +16,7 @@ const PortfolioGrid = styled.div`
   /* margin-bottom: 40px; */
 `
 
-const PortfolioItem = styled.div`
+const StyledPortfolioItem = styled.div`
   position: relative;
   z-index: 1;
 
@@ -48,18 +48,18 @@ const StyledImage = styled(Image)<ImageProps>`
   border-radius: 4px;
 `
 
-const PortfolioContent = styled.div`
+const StyledPortfolioContent = styled.div`
   height: 240px;
   padding: 20px 0;
 `
 
-const PortfolioLinks = styled.div``
+const StyledPortfolioLinks = styled.div``
 
-const CategoryHeading = styled.h2`
+const StyledCategoryHeading = styled.h2`
   padding-top: 40px;
 `
 
-const TechSpan = styled.span<{ color: string }>`
+const StyledTechSpan = styled.span<{ color: string }>`
   padding: 4px 10px;
   border-radius: 2px;
   background: ${props => props.color};
@@ -81,10 +81,10 @@ const Portfolio = () => {
   }, [])
 
   return (
-    <Container>
-      <CategoryHeading ref={fullTimeRef}>FULL-TIME</CategoryHeading>
-      <PortfolioGrid>
-        <PortfolioItem>
+    <StyledContainer>
+      <StyledCategoryHeading ref={fullTimeRef}>FULL-TIME</StyledCategoryHeading>
+      <StyledPortfolioGrid>
+        <StyledPortfolioItem>
           <StyledImage
             fileName="mezzanine-logo.png"
             alt=""
@@ -93,7 +93,7 @@ const Portfolio = () => {
             }}
           />
 
-          <PortfolioContent>
+          <StyledPortfolioContent>
             <h3>Mezzanine Ware (Pty.) Ltd.</h3>
             <a
               href="https://mezzanineware.com/"
@@ -108,16 +108,16 @@ const Portfolio = () => {
               <strong>National Department of Health&apos;s</strong>{" "}
               <strong>Stock Visibility Solution</strong>.
             </p>
-          </PortfolioContent>
+          </StyledPortfolioContent>
 
-          <PortfolioLinks>
-            <TechSpan color="#f0db4f">JavaScript</TechSpan>{" "}
-            <TechSpan color="#f89820">Java</TechSpan>{" "}
-            <TechSpan color="#008bb9">PostgreSQL</TechSpan>
-          </PortfolioLinks>
-        </PortfolioItem>
+          <StyledPortfolioLinks>
+            <StyledTechSpan color="#f0db4f">JavaScript</StyledTechSpan>{" "}
+            <StyledTechSpan color="#f89820">Java</StyledTechSpan>{" "}
+            <StyledTechSpan color="#008bb9">PostgreSQL</StyledTechSpan>
+          </StyledPortfolioLinks>
+        </StyledPortfolioItem>
 
-        <PortfolioItem>
+        <StyledPortfolioItem>
           <StyledImage
             fileName="proteus-logo-alt.png"
             alt=""
@@ -127,7 +127,7 @@ const Portfolio = () => {
             }}
           />
 
-          <PortfolioContent>
+          <StyledPortfolioContent>
             <h3>ProteusEMS</h3>
             <a href="https://proteusems.com/" target="_blank" rel="noreferrer">
               proteusems.com
@@ -140,19 +140,19 @@ const Portfolio = () => {
                 Saudi Arabian Ministry of National Guard - Health Affairs.
               </strong>
             </p>
-          </PortfolioContent>
+          </StyledPortfolioContent>
 
-          <PortfolioLinks>
-            <TechSpan color="#41B883">Vue</TechSpan>{" "}
-            <TechSpan color="#68A063">Node</TechSpan>{" "}
-            <TechSpan color="#008bb9">PostgreSQL</TechSpan>
-          </PortfolioLinks>
-        </PortfolioItem>
-      </PortfolioGrid>
+          <StyledPortfolioLinks>
+            <StyledTechSpan color="#41B883">Vue</StyledTechSpan>{" "}
+            <StyledTechSpan color="#68A063">Node</StyledTechSpan>{" "}
+            <StyledTechSpan color="#008bb9">PostgreSQL</StyledTechSpan>
+          </StyledPortfolioLinks>
+        </StyledPortfolioItem>
+      </StyledPortfolioGrid>
 
-      <CategoryHeading ref={freelanceRef}>FREELANCE & PERSONAL</CategoryHeading>
-      <PortfolioGrid>
-        <PortfolioItem>
+      <StyledCategoryHeading ref={freelanceRef}>FREELANCE & PERSONAL</StyledCategoryHeading>
+      <StyledPortfolioGrid>
+        <StyledPortfolioItem>
           <StyledImage
             fileName="cutlass-logo.png"
             alt=""
@@ -165,7 +165,7 @@ const Portfolio = () => {
             }}
           />
 
-          <PortfolioContent>
+          <StyledPortfolioContent>
             <h3>Cutlass Design Studios</h3>
             <a
               href="https://www.cutlass.studio/"
@@ -179,18 +179,18 @@ const Portfolio = () => {
               Personal website created in collaboration with a talented designer
               to represent us in freelancing with clients.
             </p>
-          </PortfolioContent>
+          </StyledPortfolioContent>
 
-          <PortfolioLinks>
-            <TechSpan color="#61DBFB">React</TechSpan>{" "}
-            <TechSpan color="#663399">Gatsby</TechSpan>{" "}
-            <TechSpan color="#961A1F">WebGL</TechSpan>
-          </PortfolioLinks>
-        </PortfolioItem>
-        <PortfolioItem>
+          <StyledPortfolioLinks>
+            <StyledTechSpan color="#61DBFB">React</StyledTechSpan>{" "}
+            <StyledTechSpan color="#663399">Gatsby</StyledTechSpan>{" "}
+            <StyledTechSpan color="#961A1F">WebGL</StyledTechSpan>
+          </StyledPortfolioLinks>
+        </StyledPortfolioItem>
+        <StyledPortfolioItem>
           <StyledImage fileName="triptraka-mockup.jpg" alt="" />
 
-          <PortfolioContent>
+          <StyledPortfolioContent>
             <h3>Arcfyre TripTraka</h3>
             <a
               href="https://play.google.com/store/apps/details?id=za.co.smartpalm.triptraka.arcfyre&hl=en"
@@ -203,19 +203,19 @@ const Portfolio = () => {
             <p>
               A trip management app for the clients of Arcfyre International.
             </p>
-          </PortfolioContent>
+          </StyledPortfolioContent>
 
-          <PortfolioLinks>
-            <TechSpan color="#41B883">Vue</TechSpan>{" "}
-            <TechSpan color="#498AFF">Ionic</TechSpan>{" "}
-            <TechSpan color="#68A063">Node</TechSpan>{" "}
-            <TechSpan color="#FF9900">AWS</TechSpan>
-          </PortfolioLinks>
-        </PortfolioItem>
-        <PortfolioItem>
+          <StyledPortfolioLinks>
+            <StyledTechSpan color="#41B883">Vue</StyledTechSpan>{" "}
+            <StyledTechSpan color="#498AFF">Ionic</StyledTechSpan>{" "}
+            <StyledTechSpan color="#68A063">Node</StyledTechSpan>{" "}
+            <StyledTechSpan color="#FF9900">AWS</StyledTechSpan>
+          </StyledPortfolioLinks>
+        </StyledPortfolioItem>
+        <StyledPortfolioItem>
           <StyledImage fileName="arcpay-mockup.jpg" alt="" />
 
-          <PortfolioContent>
+          <StyledPortfolioContent>
             <h3>Arcfyre Arcpay</h3>
             <a
               href="https://play.google.com/store/apps/details?id=za.co.smartpalm.arcpay"
@@ -228,36 +228,36 @@ const Portfolio = () => {
             <p>
               A payment processing app for the clients of Arcfyre International.
             </p>
-          </PortfolioContent>
+          </StyledPortfolioContent>
 
-          <PortfolioLinks>
-            <TechSpan color="#41B883">Vue</TechSpan>{" "}
-            <TechSpan color="#498AFF">Ionic</TechSpan>{" "}
-            <TechSpan color="#68A063">Node</TechSpan>{" "}
-            <TechSpan color="#FF9900">AWS</TechSpan>
-          </PortfolioLinks>
-        </PortfolioItem>
-        <PortfolioItem>
+          <StyledPortfolioLinks>
+            <StyledTechSpan color="#41B883">Vue</StyledTechSpan>{" "}
+            <StyledTechSpan color="#498AFF">Ionic</StyledTechSpan>{" "}
+            <StyledTechSpan color="#68A063">Node</StyledTechSpan>{" "}
+            <StyledTechSpan color="#FF9900">AWS</StyledTechSpan>
+          </StyledPortfolioLinks>
+        </StyledPortfolioItem>
+        <StyledPortfolioItem>
           <StyledImage fileName="pdm-mockup.jpg" alt="" />
 
-          <PortfolioContent>
+          <StyledPortfolioContent>
             <h3>PDM Global</h3>
             <time>2019</time>
             <p>
               A client and agent management system for the clients and agents of
               Praesidium Global.
             </p>
-          </PortfolioContent>
+          </StyledPortfolioContent>
 
-          <PortfolioLinks>
-            <TechSpan color="#41B883">Vue</TechSpan>{" "}
-            <TechSpan color="#498AFF">Ionic</TechSpan>{" "}
-            <TechSpan color="#68A063">Node</TechSpan>{" "}
-            <TechSpan color="#FF9900">AWS</TechSpan>
-          </PortfolioLinks>
-        </PortfolioItem>
-      </PortfolioGrid>
-    </Container>
+          <StyledPortfolioLinks>
+            <StyledTechSpan color="#41B883">Vue</StyledTechSpan>{" "}
+            <StyledTechSpan color="#498AFF">Ionic</StyledTechSpan>{" "}
+            <StyledTechSpan color="#68A063">Node</StyledTechSpan>{" "}
+            <StyledTechSpan color="#FF9900">AWS</StyledTechSpan>
+          </StyledPortfolioLinks>
+        </StyledPortfolioItem>
+      </StyledPortfolioGrid>
+    </StyledContainer>
   )
 }
 

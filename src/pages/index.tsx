@@ -4,33 +4,19 @@ import styled from "styled-components"
 
 import Layout from "../components/layout"
 import SEO from "../components/seo"
-import { Container } from "../components/styled/utils"
-import HandCanvas from "../components/webgl/handCanvas"
-import WhoIAm from "../components/styled/home/whoIAm"
+import { StyledContainer } from "../components/styled/styled-utils"
+import HandCanvas from "../components/webgl/hand-canvas"
+import WhoIAm from "../components/styled/home/who-i-am"
 import Portfolio from "../components/styled/home/portfolio"
 import Contact from "../components/styled/home/contact"
 
 import { UpdateNavRefAction } from "../state/reducers/navRef.reducer"
 
-/* const HeaderHeading = styled.h1`
-  position: absolute;
-  top: 0;
-
-  font-size: min(16vw, 300px);
-`
-
-const ArtistName = styled.h2`
-  position: absolute;
-  bottom: 0;
-
-  font-size: min(23vw, 430px);
-` */
-
-const HeaderCopy = styled.div`
+const StyledHeaderCopy = styled.div`
   min-height: 100vh;
 `
 
-const HeaderHeading = styled.h1`
+const StyledHeading = styled.h1`
   position: absolute;
   z-index: -2;
   top: 50%;
@@ -45,24 +31,24 @@ const HeaderHeading = styled.h1`
   margin: 0;
 `
 
-const Header = styled.header`
+const StyledHeader = styled.header`
   position: relative;
   min-height: 100vh;
 `
 
-const WhoIAmSection = styled.section`
+const StyledWhoIAm = styled.section`
   position: relative;
   background: white;
   overflow: hidden;
   min-height: 100vh;
 `
 
-const PortfolioSection = styled.section`
+const StyledPortfolio = styled.section`
   background: #2c2f33;
   padding: 80px 0 120px 0;
 `
 
-const ContactSection = styled.section`
+const StyledContact = styled.section`
   /* background: #2c2f33; */
   background: #141414;
   padding: 120px 0;
@@ -88,23 +74,23 @@ const IndexPage = () => {
     <Layout>
       <SEO title="Home" />
 
-      <Header ref={headerRef}>
-        <Container>
-          <HeaderCopy>
+      <StyledHeader ref={headerRef}>
+        <StyledContainer>
+          <StyledHeaderCopy>
             <HandCanvas />
-            <HeaderHeading>HELLO, I&apos;M HELGARD</HeaderHeading>
-          </HeaderCopy>
-        </Container>
-      </Header>
-      <WhoIAmSection ref={whoIAmRef}>
+            <StyledHeading>HELLO, I&apos;M HELGARD</StyledHeading>
+          </StyledHeaderCopy>
+        </StyledContainer>
+      </StyledHeader>
+      <StyledWhoIAm ref={whoIAmRef}>
         <WhoIAm />
-      </WhoIAmSection>
-      <PortfolioSection>
+      </StyledWhoIAm>
+      <StyledPortfolio>
         <Portfolio />
-      </PortfolioSection>
-      <ContactSection ref={contactRef}>
+      </StyledPortfolio>
+      <StyledContact ref={contactRef}>
         <Contact />
-      </ContactSection>
+      </StyledContact>
     </Layout>
   )
 }

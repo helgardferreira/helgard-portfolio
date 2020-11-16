@@ -22,30 +22,15 @@ import {
   SkinnedMesh,
   Vector3,
 } from "three"
-import useGLTF from "../../lib/hooks/useGLTF"
-import useTexture from "../../lib/hooks/useTexture"
+import useGLTF from "../../lib/hooks/use-gltf"
+import useTexture from "../../lib/hooks/use-texture"
 
 // Leveraging WebPack's raw loader
-import fluidMarbleFragment from "raw-loader!./shaders/fluidMarbleFragment.glsl"
-import fluidMarbleVertex from "raw-loader!./shaders/fluidMarbleVertex.glsl"
+import fluidMarbleFragment from "raw-loader!./shaders/fluid-marble-fragment.glsl"
+import fluidMarbleVertex from "raw-loader!./shaders/fluid-marble-vertex.glsl"
 import { useSpring } from "framer-motion"
 import { useDispatch, useStore } from "react-redux"
 import { MotionAction, MotionState } from "../../state/reducers/motion.reducer"
-// import styled from "styled-components"
-
-/* const NavLink = styled.a`
-  color: #d94c4c;
-  font-weight: bold;
-  font-family: "Raleway", sans-serif;
-  font-size: 0;
-
-  display: inline-block;
-  width: 200px;
-
-  &:link {
-    text-decoration: none;
-  }
-` */
 
 type GLTFResult = GLTF & {
   nodes: {

@@ -18,13 +18,13 @@ import {
 } from "three"
 import { useSpring, useTransform } from "framer-motion"
 
-import blobVertex from "raw-loader!./shaders/blobVertex.glsl"
+import blobVertex from "raw-loader!./shaders/blob-vertex.glsl"
 import { useDispatch, useSelector, useStore } from "react-redux"
 import { MotionAction } from "../../state/reducers/motion.reducer"
 import { Html } from "@react-three/drei"
 import styled from "styled-components"
 
-const NavLink = styled.a`
+const StyledNavLink = styled.a`
   color: #d94c4c;
   font-weight: bold;
   font-family: "Raleway", sans-serif;
@@ -222,7 +222,7 @@ const Blob: FunctionComponent<BlobProps & JSX.IntrinsicElements["mesh"]> = ({
       </mesh>
       {navName ? (
         <Html position={offsetVector}>
-          <NavLink
+          <StyledNavLink
             onClick={clickHandler}
             onMouseOver={pointerOverHandler}
             onFocus={pointerOverHandler}
@@ -231,7 +231,7 @@ const Blob: FunctionComponent<BlobProps & JSX.IntrinsicElements["mesh"]> = ({
             ref={guiText}
           >
             {navName}
-          </NavLink>
+          </StyledNavLink>
         </Html>
       ) : null}
     </group>

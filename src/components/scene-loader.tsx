@@ -7,7 +7,7 @@ import {
   LoadErrorState,
   LoadState,
 } from "../state/reducers/loader.reducer"
-import AnimatedLoadingText from "./animatedLoadingText"
+import AnimatedLoadingText from "./animated-loading-text"
 import { DefaultLoadingManager } from "three"
 
 const LoadingContainer = styled(motion.div)`

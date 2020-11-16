@@ -4,11 +4,11 @@ import { Canvas } from "react-three-fiber"
 import styled from "styled-components"
 
 import Blob from "./blob"
-import HandAnimatedModel from "./handAnimated"
-import SceneLoader from "../sceneLoader"
+import HandAnimatedModel from "./hand-animated"
+import SceneLoader from "../scene-loader"
 import { Provider, ReactReduxContext, useSelector } from "react-redux"
 import { useTransform, useViewportScroll } from "framer-motion"
-import useWindowSize from "../../lib/hooks/useWindowSize"
+import useWindowSize from "../../lib/hooks/use-window-size"
 import { Group, Vector3 } from "three"
 import { interpolate } from "@popmotion/popcorn"
 import { NavRefState } from "../../state/reducers/navRef.reducer"
@@ -97,7 +97,7 @@ const FingerBlobs: FunctionComponent = () => {
 }
 
 // const CanvasContainer = styled(motion.div)`
-const CanvasContainer = styled.div`
+const StyledCanvasContainer = styled.div`
   position: fixed;
   z-index: 1;
   bottom: 0;
@@ -152,7 +152,7 @@ const HandCanvas: FunctionComponent = () => {
   return (
     <>
       <SceneLoader />
-      <CanvasContainer>
+      <StyledCanvasContainer>
         <ReactReduxContext.Consumer>
           {({ store }) => (
             <Canvas
@@ -183,7 +183,7 @@ const HandCanvas: FunctionComponent = () => {
             </Canvas>
           )}
         </ReactReduxContext.Consumer>
-      </CanvasContainer>
+      </StyledCanvasContainer>
     </>
   )
 }

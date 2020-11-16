@@ -1,10 +1,10 @@
 import React from "react"
 import styled from "styled-components"
-import BackgroundScroll from "../../../backgroundScroll"
-import LoopText from "../../../loopText"
-import { Container } from "../../utils"
+import BackgroundScroll from "../../../background-scroll"
+import LoopText from "../../../loop-text"
+import { StyledContainer } from "../../styled-utils"
 
-const CreativeIntelligence = styled.div`
+const StyledCreative = styled.div`
   position: absolute;
   font-size: 500px;
   top: 0;
@@ -21,7 +21,7 @@ const CreativeIntelligence = styled.div`
   }
 `
 
-const AboutCopy = styled.div`
+const StyledAboutCopy = styled.div`
   padding: 120px 0 140px 0;
   color: black;
 
@@ -32,7 +32,7 @@ const AboutCopy = styled.div`
   }
 `
 
-const Description = styled.div`
+const StyledDescription = styled.div`
   max-width: 65%;
   line-height: 120%;
   font-size: 42px;
@@ -54,13 +54,13 @@ const Description = styled.div`
 const WhoIAm = () => {
   return (
     <>
-      <CreativeIntelligence>
+      <StyledCreative>
         <BackgroundScroll />
-      </CreativeIntelligence>
-      <Container>
-        <AboutCopy>
+      </StyledCreative>
+      <StyledContainer>
+        <StyledAboutCopy>
           <h2>I&apos;m a problem solver with a flair for creativity</h2>
-          <Description>
+          <StyledDescription>
             <p>
               I&apos;m fluent in <strong>JavaScript</strong>,{" "}
               <strong>TypeScript</strong>, <strong>React</strong>,{" "}
@@ -85,9 +85,9 @@ const WhoIAm = () => {
                 <strong>bringing</strong> dreams to reality
               </span>
             </LoopText>
-          </Description>
-        </AboutCopy>
-      </Container>
+          </StyledDescription>
+        </StyledAboutCopy>
+      </StyledContainer>
     </>
   )
 }

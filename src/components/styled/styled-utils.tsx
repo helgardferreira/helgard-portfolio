@@ -1,7 +1,7 @@
 import styled from "styled-components"
 import { Globals, ContentDistribution, ContentPosition } from "csstype"
 
-export const Container = styled.div`
+export const StyledContainer = styled.div`
   position: relative;
   width: 100%;
   margin: 0 auto;
@@ -9,7 +9,7 @@ export const Container = styled.div`
   padding: 0 120px;
 `
 
-export const Flex = styled.div<{
+export const StyledFlex = styled.div<{
   justifyContent?:
     | Globals
     | ContentDistribution

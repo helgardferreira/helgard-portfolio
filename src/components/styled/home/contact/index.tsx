@@ -6,7 +6,7 @@ import { Vector3 } from "three"
 import { object, string } from "yup"
 
 import Blob from "../../../webgl/blob"
-import { Container, Flex } from "../../utils"
+import { StyledContainer, StyledFlex } from "../../styled-utils"
 import Button from "../../../button"
 import { Provider, ReactReduxContext } from "react-redux"
 
@@ -61,7 +61,7 @@ const StyledInput = styled.input<{ isInvalid?: boolean }>`
 
 const StyledTextArea = StyledInput.withComponent("textarea")
 
-const FormGroup = styled.div`
+const StyledFormGroup = styled.div`
   &:not(:last-child) {
     margin-bottom: 20px;
   }
@@ -87,7 +87,7 @@ const FormButton = styled(Button)<{ isInvalid?: boolean }>`
   }
 `
 
-const ContactContent = styled.div`
+const StyledContactContent = styled.div`
   width: 40%;
   min-width: 450px;
   display: flex;
@@ -95,7 +95,7 @@ const ContactContent = styled.div`
   align-items: center;
 `
 
-const BlobContainer = styled.div`
+const StyledBlobContainer = styled.div`
   display: inline-block;
   width: 120px;
   height: 600px;
@@ -202,7 +202,7 @@ const Form: FunctionComponent<FormikProps<FormValues>> = ({
       onSubmit={handleSubmit}
     >
       {/* <input type="hidden" name="form-name" value="contact" /> */}
-      <FormGroup>
+      <StyledFormGroup>
         <StyledLabel htmlFor="fullName">Full name</StyledLabel>
         <StyledInput
           {...getFieldProps("fullName")}
@@ -211,8 +211,8 @@ const Form: FunctionComponent<FormikProps<FormValues>> = ({
           name="fullName"
           isInvalid={!!(touched.fullName && errors.fullName)}
         />
-      </FormGroup>
-      <FormGroup>
+      </StyledFormGroup>
+      <StyledFormGroup>
         <StyledLabel htmlFor="email">Email address</StyledLabel>
         <StyledInput
           {...getFieldProps("email")}
@@ -221,8 +221,8 @@ const Form: FunctionComponent<FormikProps<FormValues>> = ({
           name="email"
           isInvalid={!!(touched.email && errors.email)}
         />
-      </FormGroup>
-      <FormGroup>
+      </StyledFormGroup>
+      <StyledFormGroup>
         <StyledLabel htmlFor="message">Message</StyledLabel>
         <StyledTextArea
           {...getFieldProps("message")}
@@ -232,7 +232,7 @@ const Form: FunctionComponent<FormikProps<FormValues>> = ({
           placeholder="Say hello!"
           isInvalid={!!(touched.message && errors.message)}
         />
-      </FormGroup>
+      </StyledFormGroup>
       <FormButton type="submit" isInvalid={!isValid}>
         Send
       </FormButton>
@@ -248,7 +248,7 @@ const encode = (data: { [key: string]: any }) => {
 
 const Contact = () => {
   return (
-    <Container>
+    <StyledContainer>
       <h2>SAY HELLO</h2>
       <Formik<FormValues>
         initialValues={{
@@ -277,17 +277,17 @@ const Contact = () => {
         }}
       >
         {formik => (
-          <Flex justifyContent="left">
-            <BlobContainer>
+          <StyledFlex justifyContent="left">
+            <StyledBlobContainer>
               <BlobScene />
-            </BlobContainer>
-            <ContactContent>
+            </StyledBlobContainer>
+            <StyledContactContent>
               <Form {...formik} />
-            </ContactContent>
-          </Flex>
+            </StyledContactContent>
+          </StyledFlex>
         )}
       </Formik>
-    </Container>
+    </StyledContainer>
   )
 }
 

@@ -4,5 +4,5 @@
  * See: https://www.gatsbyjs.com/docs/browser-apis/
  */
 
-import wrapWithProvider from "./src/state/wrapWithProvider.tsx"
-export const wrapRootElement = wrapWithProvider
+import WrapWithProvider from "./src/state/wrap-with-provider.tsx"
+export const wrapRootElement = WrapWithProvider

@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from "react"
-import TextScroll from "./textScroll"
+import TextScroll from "./text-scroll"
 
 interface InfiniteTextScrollProps {
   direction?: "left" | "right"
